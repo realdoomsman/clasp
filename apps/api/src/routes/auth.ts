@@ -151,61 +151,67 @@ export async function authRoutes(app: FastifyInstance) {
     return reply.redirect(url.toString());
   });
 
-  app.get("/auth/google/callback", { config: { rateLimit: { max: 20, timeWindow: "1 minute" } } }, async (request, reply) => {
-    const google = env.google;
-    if (!google) return reply.code(503).send({ error: "Google login is not set up" });
-    setCookie(reply, OAUTH_COOKIE, "", 0, "/auth/google");
-    const fail = (why: string, ret = "/") => {
-      request.log.warn({ why }, "google login failed");
-      return reply.redirect(`${env.siteUrl}${ret}#google-login-failed`);
-    };
+  // logLevel "warn": the request line carries Google's one-time `code`, so it is never logged.
+  app.get(
+    "/auth/google/callback",
+    { logLevel: "warn", config: { rateLimit: { max: 20, timeWindow: "1 minute" } } },
+    async (request, reply) => {
+      const google = env.google;
+      if (!google) return reply.code(503).send({ error: "Google login is not set up" });
+      setCookie(reply, OAUTH_COOKIE, "", 0, "/auth/google");
+      const fail = (why: string, ret = "/") => {
+        request.log.warn({ why }, "google login failed");
+        return reply.redirect(`${env.siteUrl}${ret}#google-login-failed`);
+      };
 
-    const query = z
-      .object({ code: z.string().optional(), state: z.string().optional(), error: z.string().optional() })
-      .parse(request.query);
-    const raw = verify(google.sessionSecret, readCookies(request)[OAUTH_COOKIE]);
-    const saved = raw ? OAuthState.safeParse(JSON.parse(raw)) : null;
-    if (!saved?.success || saved.data.exp < Date.now() || saved.data.state !== query.state) return fail("bad state");
-    const ret = safeReturn(saved.data.ret);
-    if (query.error || !query.code) return fail(query.error ?? "no code", ret);
+      const query = z
+        .object({ code: z.string().optional(), state: z.string().optional(), error: z.string().optional() })
+        .parse(request.query);
+      const raw = verify(google.sessionSecret, readCookies(request)[OAUTH_COOKIE]);
+      const saved = raw ? OAuthState.safeParse(JSON.parse(raw)) : null;
+      if (!saved?.success || saved.data.exp < Date.now() || saved.data.state !== query.state) return fail("bad state");
+      const ret = safeReturn(saved.data.ret);
+      if (query.error || !query.code) return fail(query.error ?? "no code", ret);
 
-    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
-      method: "POST",
-      headers: { "content-type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        code: query.code,
-        client_id: google.clientId,
-        client_secret: google.clientSecret,
-        redirect_uri: redirectUri,
-        grant_type: "authorization_code",
-        code_verifier: saved.data.verifier,
-      }),
-      signal: AbortSignal.timeout(10_000),
-    });
-    if (!tokenRes.ok) return fail(`token endpoint ${tokenRes.status}`, ret);
-    const { id_token: idToken } = (await tokenRes.json()) as { id_token?: string };
-    // Received directly from Google's token endpoint over TLS, so the claims
-    // can be trusted without re-verifying the signature (OIDC Core 3.1.3.7).
-    const payload = idToken?.split(".")[1];
-    const claims = payload ? GoogleClaims.safeParse(JSON.parse(Buffer.from(payload, "base64url").toString())) : null;
-    if (!claims?.success || claims.data.aud !== google.clientId || claims.data.exp * 1000 < Date.now()) {
-      return fail("invalid id token", ret);
-    }
+      const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          code: query.code,
+          client_id: google.clientId,
+          client_secret: google.clientSecret,
+          redirect_uri: redirectUri,
+          grant_type: "authorization_code",
+          code_verifier: saved.data.verifier,
+        }),
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (!tokenRes.ok) return fail(`token endpoint ${tokenRes.status}`, ret);
+      const { id_token: idToken } = (await tokenRes.json()) as { id_token?: string };
+      // Received directly from Google's token endpoint over TLS, so the claims
+      // can be trusted without re-verifying the signature (OIDC Core 3.1.3.7).
+      const payload = idToken?.split(".")[1];
+      const claims = payload ? GoogleClaims.safeParse(JSON.parse(Buffer.from(payload, "base64url").toString())) : null;
+      if (!claims?.success || claims.data.aud !== google.clientId || claims.data.exp * 1000 < Date.now()) {
+        return fail("invalid id token", ret);
+      }
 
-    const sealed = createSealedKey(google.custodyMasterKey);
-    await sql`
-      INSERT INTO custodial_accounts (google_sub, email, address, key_iv, key_cipher, key_version)
-      VALUES (${claims.data.sub}, ${claims.data.email}, ${sealed.address}, ${sealed.iv}, ${sealed.cipher}, ${sealed.version})
-      ON CONFLICT (google_sub) DO UPDATE SET email = EXCLUDED.email, last_login_at = now()
-    `;
-    const token = b64url(randomBytes(32));
-    await sql`
-      INSERT INTO sessions (token_hash, google_sub, expires_at)
-      VALUES (${sha256(token)}, ${claims.data.sub}, now() + make_interval(secs => ${SESSION_SECS}))
-    `;
-    setCookie(reply, SESSION_COOKIE, token, SESSION_SECS, "/");
-    return reply.redirect(`${env.siteUrl}${ret}#google-login`);
-  });
+      const sealed = createSealedKey(google.custodyMasterKey);
+      await sql`
+        INSERT INTO custodial_accounts (google_sub, email, address, key_iv, key_cipher, key_version)
+        VALUES (${claims.data.sub}, ${claims.data.email}, ${sealed.address}, ${sealed.iv}, ${sealed.cipher}, ${sealed.version})
+        ON CONFLICT (google_sub) DO UPDATE SET email = EXCLUDED.email, last_login_at = now()
+      `;
+      const token = b64url(randomBytes(32));
+      await sql`DELETE FROM sessions WHERE expires_at <= now()`;
+      await sql`
+        INSERT INTO sessions (token_hash, google_sub, expires_at)
+        VALUES (${sha256(token)}, ${claims.data.sub}, now() + make_interval(secs => ${SESSION_SECS}))
+      `;
+      setCookie(reply, SESSION_COOKIE, token, SESSION_SECS, "/");
+      return reply.redirect(`${env.siteUrl}${ret}#google-login`);
+    },
+  );
 
   app.post("/auth/logout", async (request, reply) => {
     if (!requireOrigin(request, reply)) return;

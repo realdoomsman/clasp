@@ -77,23 +77,31 @@ ClaspRouter `0x2c2F23acbEd17827b7873Ce1Bc7430ADEB7Bf92A`, ClaspLauncher
 Sourcify. Factory owner and treasury: the deployer key
 `0x841b078a88B549F288e07Ad94197C343Afe870e8`.
 
-Each service builds with Railway's Dockerfile builder from the repo root; the
-service variable `RAILWAY_DOCKERFILE_PATH` picks the Dockerfile
-(`apps/api/Dockerfile` for `api` and `indexer`, `apps/web/Dockerfile` for
-`web`). `railway up` uploads the working tree minus `.gitignore` (so
-`.secrets/` and `.env*` never leave the machine), and the root
-`.dockerignore` filters the build context again.
+Service settings live in **`.railway/railway.ts`** (Railway infrastructure as
+code): Dockerfile per service (`apps/api/Dockerfile` for `api` and `indexer`,
+`apps/web/Dockerfile` for `web`), health checks (`api` → `/health`, `web` →
+`/icon.svg`; a deploy that fails its check never replaces the running one),
+restart `ALWAYS`, and `indexer` at exactly 1 replica with `overlapSeconds: 0`
+(the old container stops before the new one starts: never two keepers).
+Change settings there, then from WSL (the SDK is a root dev dependency;
+the Windows CLI can't follow pnpm's WSL symlinks):
+`PATH=~/.railway/bin:/opt/node/bin:$PATH railway config plan`, review, then
+`railway config apply`. Anything omitted from the file is removed on apply;
+secret values are `preserve()` and never in git.
+
+`railway up` uploads the working tree minus `.gitignore` (so `.secrets/` and
+`.env*` never leave the machine), and the root `.dockerignore` filters the
+build context again.
 
 1. **Link** once from the repo root: `railway link` → project `clasp`.
 2. **Deploy** after committing: `railway up --service api --ci`, then the same
    for `indexer` and `web`. `--ci` streams the build and exits on the result.
 3. **Variables** (`railway variables --service <name>`): the table above.
-   `api`: `CORS_ORIGINS`, `PUBLIC_API_URL=https://api.clasp.fun`, `PORT=8080`.
-   `indexer`: `ROLE=indexer`, `KEEPER_PRIVATE_KEY` (set with
-   `--set-from-stdin` so it never lands in shell history),
-   `RAILWAY_DEPLOYMENT_OVERLAP_SECONDS=0` (the old container stops before the
-   new one starts: no double keeper). Both: `DATABASE_URL=${{Postgres.DATABASE_URL}}`,
-   `RPC_URL`, `CHAIN_ID=4663`. `START_BLOCK` is not needed (the SDK publishes it).
+   `api`: `CORS_ORIGINS`, `PUBLIC_API_URL=https://api.clasp.fun`, `PORT=8080`,
+   the four Google variables. `indexer`: `ROLE=indexer`, `KEEPER_PRIVATE_KEY`.
+   Set secrets with `--set-from-stdin` so they never land in shell history.
+   Both: `DATABASE_URL=${{Postgres.DATABASE_URL}}`, `RPC_URL`, `CHAIN_ID=4663`.
+   `START_BLOCK` is not needed (the SDK publishes it).
 4. **Networking**: `api` → `api.clasp.fun` and `api-production-373a2.up.railway.app`
    (port 8080); `web` → `clasp.fun`, `www.clasp.fun` and
    `web-production-56f7f.up.railway.app` (port 3000). `indexer` has no public
@@ -109,6 +117,22 @@ service variable `RAILWAY_DOCKERFILE_PATH` picks the Dockerfile
 First boot of `indexer` scans from the deploy block to head in `LOG_RANGE`
 chunks; progress is the `indexed` log line (`behind` field),
 `GET /health` (`indexedBlock`) and `SELECT * FROM indexer_cursor`.
+
+### Backups
+
+Postgres has **point-in-time recovery** (continuous WAL archive in the
+`Postgres-PITR` bucket) plus scheduled snapshots: daily (kept 6 days), weekly
+(27 days), monthly (89 days), and `launch-baseline` (kept forever).
+
+- Status: `railway postgres pitr status --service Postgres`;
+  snapshots: `railway postgres pitr backup list --service Postgres`.
+- Before any risky change: `railway postgres pitr backup create --service Postgres --name <why>`.
+- Restore to a moment (into a **new** service, never over the live one):
+  `railway postgres pitr restore --service Postgres --at 2026-09-25T23:00:00Z`,
+  check it, then point `DATABASE_URL` of `api` and `indexer` at it.
+- The backups hold `custodial_accounts` encrypted; they are useless without
+  `CUSTODY_MASTER_KEY`, which is only in Railway and `.secrets/custody-master-key`.
+  Keep a second offline copy of that key (password manager).
 
 ### Website (`apps/web`)
 
@@ -276,7 +300,7 @@ that used it shows no logo).
 client address, keyed on the right-most `X-Forwarded-For` entry (the one
 Railway's edge appends). Raise `max` in `src/index.ts` if needed.
 
-**Database lost.** Restore the latest Railway backup, or rebuild from chain
-(full rebuild above). `images` and **`custodial_accounts`** (Google users' wallet
-keys) cannot be rebuilt from chain — back them up, and keep `CUSTODY_MASTER_KEY`
-offline too.
+**Database lost.** Restore from point-in-time recovery or a snapshot (see
+*Backups*), or rebuild from chain (full rebuild above). `images` and
+**`custodial_accounts`** (Google users' wallet keys) cannot be rebuilt from
+chain; only the backups have them, and only `CUSTODY_MASTER_KEY` opens them.

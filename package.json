@@ -1,5 +1,8 @@
 {
   "name": "clasp",
   "private": true,
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "railway": "^3.11.0"
+  }
 }
