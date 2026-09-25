@@ -184,3 +184,43 @@ CREATE TABLE IF NOT EXISTS fee_recipient_changes (
   PRIMARY KEY (tx_hash, log_index)
 );
 CREATE INDEX IF NOT EXISTS fee_recipient_changes_token_idx ON fee_recipient_changes (token, block_number DESC);
+
+-- Google accounts and the wallets Clasp holds for them (custodial). NOT
+-- derived from chain: losing this table loses users' keys and funds. Never
+-- truncate it; back it up. The private key is AES-256-GCM encrypted with
+-- CUSTODY_MASTER_KEY, and the address is the authenticated data, so a
+-- ciphertext only decrypts in the row it was written for.
+CREATE TABLE IF NOT EXISTS custodial_accounts (
+  google_sub     text PRIMARY KEY,
+  email          text NOT NULL,
+  address        text NOT NULL UNIQUE,
+  key_iv         bytea NOT NULL,
+  key_cipher     bytea NOT NULL,     -- ciphertext || 16-byte GCM tag
+  key_version    smallint NOT NULL DEFAULT 1,
+  created_at     timestamptz NOT NULL DEFAULT now(),
+  last_login_at  timestamptz NOT NULL DEFAULT now()
+);
+
+-- Signed-in browsers. Only the SHA-256 of the cookie token is stored.
+CREATE TABLE IF NOT EXISTS sessions (
+  token_hash  text PRIMARY KEY,
+  google_sub  text NOT NULL REFERENCES custodial_accounts (google_sub) ON DELETE CASCADE,
+  created_at  timestamptz NOT NULL DEFAULT now(),
+  expires_at  timestamptz NOT NULL
+);
+CREATE INDEX IF NOT EXISTS sessions_sub_idx ON sessions (google_sub);
+
+-- Every transaction Clasp signed for a custodial account, and every key export.
+CREATE TABLE IF NOT EXISTS custody_log (
+  id          bigserial PRIMARY KEY,
+  at          timestamptz NOT NULL DEFAULT now(),
+  google_sub  text NOT NULL,
+  action      text NOT NULL,     -- send | export
+  to_address  text,
+  value       numeric,
+  selector    text,
+  tx_hash     text,
+  status      text NOT NULL,     -- sent | failed | exported
+  detail      text
+);
+CREATE INDEX IF NOT EXISTS custody_log_sub_idx ON custody_log (google_sub, at DESC);

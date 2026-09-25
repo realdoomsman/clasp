@@ -10,10 +10,16 @@ export default function PrivacyPage() {
         We collect as little as we can. Here is exactly what happens with your data.
       </PageHeader>
       <div className="prose-clasp">
-        <h2>Connecting a wallet</h2>
+        <h2>Signing in</h2>
         <p>
-          Clasp has no accounts and no log-in service. You connect a wallet you already use, such as MetaMask, Rabby or
-          Coinbase Wallet, and the site only learns its public address. Your keys never leave your wallet.
+          With your own wallet, such as MetaMask, Rabby or Coinbase Wallet, the site only learns its public address and
+          your keys never leave your wallet.
+        </p>
+        <p>
+          With <strong>Continue with Google</strong>, Google tells us your Google account ID and email address. We store
+          them with the wallet we create for you, whose private key we keep encrypted on our servers (see{' '}
+          <a href="/security#google">Security</a>). We use your email only to identify your account. We keep a log of the
+          transactions we sign for you and of key exports, to protect your account.
         </p>
 
         <h2>The blockchain is public</h2>
@@ -39,8 +45,8 @@ export default function PrivacyPage() {
 
         <h2>Cookies and storage</h2>
         <p>
-          The site stores small pieces of data in your browser so you stay logged in and your wallet reconnects. Nothing
-          is used for tracking.
+          With your own wallet, the site stores small pieces of data in your browser so your wallet reconnects. With Google,
+          our API also sets one sign-in cookie that keeps you signed in for up to 30 days. Nothing is used for tracking.
         </p>
       </div>
     </div>

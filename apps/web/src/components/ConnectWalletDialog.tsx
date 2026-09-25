@@ -1,9 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useConnect, type Connector } from 'wagmi';
 import { robinhood } from '@/lib/chain';
 import { humanError } from '@/lib/errors';
+import { fetchGoogleSession, startGoogleLogin } from '@/lib/google-wallet';
+import { Modal } from './Modal';
 import { Spinner } from './ui';
 
 /**
@@ -16,6 +19,32 @@ function walletChoices(connectors: readonly Connector[]): Connector[] {
   if (announced.length > 0) return announced;
   const generic = connectors.find((c) => c.id === 'injected');
   return generic && 'ethereum' in window ? [generic] : [];
+}
+
+function GoogleOption() {
+  const session = useQuery({ queryKey: ['google-session'], queryFn: fetchGoogleSession, staleTime: 60_000 });
+  if (!session.data?.enabled) return null;
+  return (
+    <div className="mb-5">
+      <button
+        type="button"
+        onClick={() => startGoogleLogin(window.location.pathname + window.location.search)}
+        className="flex w-full items-center justify-center gap-3 rounded-2xl border border-line px-4 py-3 font-semibold hover:bg-paper-2"
+      >
+        <svg viewBox="0 0 48 48" className="h-5 w-5" aria-hidden="true">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+        </svg>
+        Continue with Google
+      </button>
+      <p className="hint mt-2">
+        Clasp creates a wallet for your Google account and keeps its key for you. You can withdraw or export it any time.
+      </p>
+      <p className="mt-5 text-center text-xs font-semibold tracking-wide text-ink-3 uppercase">or use your own wallet</p>
+    </div>
+  );
 }
 
 function WalletList({ onConnected }: { onConnected: () => void }) {
@@ -46,7 +75,6 @@ function WalletList({ onConnected }: { onConnected: () => void }) {
                 className="flex w-full items-center gap-3 rounded-2xl border border-line px-4 py-3 text-left font-semibold hover:bg-paper-2 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {wallet.icon ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- wallet-provided data: URI
                   <img src={wallet.icon} alt="" className="h-8 w-8 rounded-lg" />
                 ) : (
                   <span aria-hidden="true" className="h-8 w-8 rounded-lg bg-paper-2" />
@@ -64,52 +92,19 @@ function WalletList({ onConnected }: { onConnected: () => void }) {
   );
 }
 
-/** Clasp's own wallet picker. No third-party login: the site only ever learns your public address. */
-export function ConnectWalletDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const ref = useRef<HTMLDialogElement>(null);
+/** Clasp's own sign-in: Google (Clasp-held wallet) or any wallet installed in the browser. */
+export function ConnectWalletDialog({ open, notice, onClose }: { open: boolean; notice: string | null; onClose: () => void }) {
   const { reset } = useConnect();
-
   useEffect(() => {
-    const dialog = ref.current;
-    if (!dialog) return;
-    if (open && !dialog.open) {
-      reset();
-      dialog.showModal();
-    } else if (!open && dialog.open) {
-      dialog.close();
-    }
+    if (open) reset();
   }, [open, reset]);
 
   return (
-    <dialog
-      ref={ref}
-      aria-labelledby="connect-wallet-title"
-      onClose={onClose}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-      className="card m-auto w-[min(26rem,calc(100vw-2rem))] p-0 text-ink backdrop:bg-black/40"
-    >
-      {/* Rendered only while open: the wallet list depends on browser-only state. */}
-      {open && (
-        <div className="p-5 sm:p-6">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 id="connect-wallet-title" className="font-display text-xl font-semibold">
-              Connect a wallet
-            </h2>
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-xl text-ink-2 hover:bg-paper-2"
-            >
-              ✕
-            </button>
-          </div>
-          <WalletList onConnected={onClose} />
-          <p className="hint mt-4">Clasp never sees your keys. Connecting shares only your public address.</p>
-        </div>
-      )}
-    </dialog>
+    <Modal open={open} onClose={onClose} title="Sign in to Clasp">
+      {notice && <p className="mb-4 rounded-xl bg-bad-soft px-3 py-2 text-sm text-bad">{notice}</p>}
+      <GoogleOption />
+      <WalletList onConnected={onClose} />
+      <p className="hint mt-4">With your own wallet, Clasp never sees your keys; it only learns your public address.</p>
+    </Modal>
   );
 }

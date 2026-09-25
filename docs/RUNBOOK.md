@@ -37,8 +37,12 @@ Secrets live only in the platform's variables. Never commit them; the repo
 | `LOG_LEVEL` | both | `info` | `debug` logs every empty indexer range. |
 | `NODE_ENV` | both | set to `production` by the image | |
 | `PORT` / `HOST` | api | `8080` / `0.0.0.0` | |
-| `CORS_ORIGINS` | api | — | Comma-separated bare origins, e.g. `https://clasp.fun,https://www.clasp.fun`. **Boot fails on mainnet if unset or `*`.** No credentials are allowed cross-origin (none are used). |
-| `PUBLIC_API_URL` | api | `http://localhost:$PORT` | e.g. `https://api.clasp.fun`. Required in production: it is baked into uploaded image URLs, which are written on chain as a coin's logo and can never change. |
+| `CORS_ORIGINS` | api | — | Comma-separated bare origins, e.g. `https://clasp.fun,https://www.clasp.fun`. **Boot fails on mainnet if unset or `*`.** These origins may send credentialed requests (the Google session cookie). |
+| `PUBLIC_API_URL` | api | `http://localhost:$PORT` | e.g. `https://api.clasp.fun`. Required in production: it is baked into uploaded image URLs, which are written on chain as a coin's logo and can never change. Also the base of the Google OAuth redirect URI (`$PUBLIC_API_URL/auth/google/callback`). |
+| `SITE_URL` | api | `https://clasp.fun` | Where Google login returns people. |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | api | — | Google Cloud project `clasp-509722` → Google Auth Platform → Clients (Web application, redirect URI `https://api.clasp.fun/auth/google/callback`). Google login is off until all four Google variables are set; setting only some fails boot. |
+| `SESSION_SECRET` | api | — | ≥ 32 random characters; signs the OAuth state cookie. Changing it only aborts logins in progress. |
+| `CUSTODY_MASTER_KEY` | api | — | 32 bytes hex. Encrypts every Google wallet key. **Never change or lose it**: without it every Google wallet (and what it holds) is unrecoverable. Keep an offline copy. Never set it on `indexer`. |
 | `START_BLOCK` | indexer | `deployBlock` from `@clasp/sdk` (72566517) | Where the first scan starts (ClaspFactory deploy block). Override only to rescan from a different block when no cursor is saved. |
 | `CONFIRMATIONS` | indexer | `20` | Blocks the indexer stays behind head (~2 s at ~0.1 s blocks). |
 | `LOG_RANGE` | indexer | `50000` | Max blocks per `eth_getLogs`; halved automatically on any RPC error, grown back on success. |
@@ -94,10 +98,11 @@ service variable `RAILWAY_DOCKERFILE_PATH` picks the Dockerfile
    (port 8080); `web` → `clasp.fun`, `www.clasp.fun` and
    `web-production-56f7f.up.railway.app` (port 3000). `indexer` has no public
    domain and exactly 1 replica.
-5. **DNS** (Porkbun, zone `clasp.fun`): CNAME `api` → `wi1kyisc.up.railway.app`,
-   CNAME/ALIAS apex → `pbywofxf.up.railway.app`, CNAME `www` →
-   `c7goxgt6.up.railway.app`, plus the `_railway-verify*` TXT records shown by
-   `railway domain status <domain>`. Railway issues certificates once they resolve.
+5. **DNS** (Porkbun, zone `clasp.fun`, live): ALIAS apex → `pbywofxf.up.railway.app`,
+   CNAME `www` → `c7goxgt6.up.railway.app`, CNAME `api` → `wi1kyisc.up.railway.app`,
+   plus the three `_railway-verify*` TXT records (`railway domain status <domain>`).
+   Managed through the Porkbun API (key `clasp`, credentials in `.secrets/porkbun.*`;
+   `POST https://api.porkbun.com/api/json/v3/dns/retrieve/clasp.fun`).
 6. **Roll back** from the Railway dashboard (redeploy an earlier deployment).
    The schema is additive only, so an older build runs against a newer schema.
 
@@ -118,9 +123,9 @@ args; see `apps/web/Dockerfile` and `apps/web/.env.example`):
 
 Railway passes the service variables as build args. Changing any of them needs
 a rebuild (`railway up --service web --ci`). `web` runs
-`node apps/web/server.js` on port 3000. `NEXT_PUBLIC_API_URL` currently points
-at `https://api-production-373a2.up.railway.app`; switch it to
-`https://api.clasp.fun` once that domain serves.
+`node apps/web/server.js` on port 3000 with `NEXT_PUBLIC_API_URL=https://api.clasp.fun`.
+Google login only works on `clasp.fun`/`www.clasp.fun`: the session cookie lives on
+`api.clasp.fun` and is only same-site for those origins.
 
 ### Docker ignore rules (repo-root `.dockerignore`)
 
@@ -222,8 +227,10 @@ UPDATE indexer_cursor SET block = <block before the problem> WHERE name = 'main'
 Positions, redirects and vault state converge on the next passes (vault
 numbers are overwritten from chain every minute regardless). Full rebuild:
 `TRUNCATE coins, positions, events, trades, admin_redirects, fee_recipient_changes, indexer_cursor;`
-then restart with `START_BLOCK` = factory deploy block. `images` and
-`keeper_runs` are not derived from chain — never truncate them.
+then restart with `START_BLOCK` = factory deploy block. `images`, `keeper_runs`,
+`custodial_accounts`, `sessions` and `custody_log` are not derived from chain —
+never truncate them. **`custodial_accounts` holds users' wallet keys: losing it
+loses their funds.**
 
 **Keeper refusing (`ALERT keeper balance below minimum`, level error, field
 `alert: "keeper_low_balance"`, logged hourly; also a `refused` row in
@@ -270,4 +277,6 @@ client address, keyed on the right-most `X-Forwarded-For` entry (the one
 Railway's edge appends). Raise `max` in `src/index.ts` if needed.
 
 **Database lost.** Restore the latest Railway backup, or rebuild from chain
-(full rebuild above). Only `images` cannot be rebuilt from chain — back it up.
+(full rebuild above). `images` and **`custodial_accounts`** (Google users' wallet
+keys) cannot be rebuilt from chain — back them up, and keep `CUSTODY_MASTER_KEY`
+offline too.

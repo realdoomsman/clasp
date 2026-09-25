@@ -29,7 +29,8 @@ export default function SecurityPage() {
       <div className="grid gap-3 sm:grid-cols-2">
         {[
           ['Can’t be changed', 'No upgrade key, no proxies. The code you lock with is the code that pays you out.'],
-          ['No admin access to funds', 'Nobody — including Clasp — can move locked coins or earned ETH.'],
+          ['No admin access to funds', 'No admin — including Clasp — can move locked coins or earned ETH out of a vault.'],
+          ['Google sign-in is custodial', 'If you sign in with Google, Clasp holds your wallet’s key. Your own wallet avoids that.'],
           ['One outside risk', 'Pons’s admin can redirect a coin’s creator fees after a 3-day public wait.'],
           ['Not audited yet', 'No outside audit so far. Pons also calls its v2 contracts unaudited.'],
         ].map(([title, body]) => (
@@ -92,6 +93,25 @@ export default function SecurityPage() {
           could take effect, so you have days to decide what to do.
         </p>
 
+        <h2 id="google" className="scroll-mt-24">
+          Signing in with Google means Clasp holds your key
+        </h2>
+        <p>
+          “Continue with Google” creates a wallet for your Google account, and <strong>Clasp keeps that wallet’s private
+          key</strong> on its servers, encrypted, and signs transactions for you when you ask. That makes it easy to start,
+          but it means you are trusting Clasp with that wallet:
+        </p>
+        <ul>
+          <li>Anyone who takes over your Google account can use the wallet. Protect your Google account with 2-step verification.</li>
+          <li>If Clasp’s servers were broken into, the keys of Google wallets could be stolen along with what they hold.</li>
+          <li>If Clasp’s service is down, you can’t use a Google wallet from this site until it is back.</li>
+        </ul>
+        <p>
+          You can move out any time: <strong>Withdraw ETH</strong> sends ETH to any address, and{' '}
+          <strong>Export private key</strong> gives you the key to import into a wallet app such as MetaMask or Rabby. If
+          you connect your own wallet instead, Clasp never sees your key.
+        </p>
+
         <h2>No audit yet</h2>
         <p>
           Clasp’s contracts are tested heavily, including against a copy of the live chain, but they have{' '}
@@ -104,8 +124,9 @@ export default function SecurityPage() {
           <li>Memecoins are extremely risky and can go to zero. Locking protects nothing about the price.</li>
           <li>A coin with no trading earns its lockers nothing.</li>
           <li>
-            This website only prepares transactions; your wallet signs them. Always check what your wallet shows before
-            confirming. Your locks stay reachable through any other blockchain tool even if this site is down.
+            With your own wallet, this website only prepares transactions and your wallet signs them. Always check what your
+            wallet shows before confirming. Your locks stay reachable through any other blockchain tool even if this site is
+            down.
           </li>
         </ul>
       </div>

@@ -11,12 +11,14 @@ import { log } from "./log.ts";
 import { coinRoutes } from "./routes/coins.ts";
 import { MAX_IMAGE_BYTES, imageRoutes } from "./routes/images.ts";
 import { walletRoutes } from "./routes/wallet.ts";
+import { authRoutes } from "./routes/auth.ts";
 import type { HealthResponse } from "./types.ts";
 
 /**
- * ROLE=api. Read-only over the indexer's tables plus a few live reads; never
- * holds a key and is never in the signing path — transactions are built and
- * signed in the browser. Stateless, so it can scale out.
+ * ROLE=api. Read API over the indexer's tables plus a few live reads, image
+ * upload, and Google login. Browser-wallet users sign in their own wallet and
+ * the API never sees their keys; Google users' wallets are held by Clasp and
+ * signed here (routes/auth.ts). Stateless apart from Postgres, so it can scale out.
  */
 
 assertApiEnv();
@@ -33,8 +35,8 @@ const app = Fastify({
 await app.register(cors, {
   origin: env.corsOrigins.includes("*") ? true : env.corsOrigins,
   methods: ["GET", "POST"],
-  // Nothing here uses cookies or auth headers.
-  credentials: false,
+  // The Google session cookie rides on credentialed requests from the site.
+  credentials: true,
   maxAge: 600,
 });
 
@@ -110,6 +112,7 @@ app.get("/health", async (_request, reply): Promise<HealthResponse> => {
 await app.register(coinRoutes, { prefix: "/api" });
 await app.register(walletRoutes, { prefix: "/api" });
 await app.register(imageRoutes);
+await app.register(authRoutes);
 
 const shutdown = async (signal: string) => {
   app.log.info({ signal }, "shutting down");

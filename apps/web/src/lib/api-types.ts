@@ -228,3 +228,10 @@ export interface ImageUploadResponse {
   /** Absolute URL, suitable for the Pons `logo` field. */
   url: string;
 }
+
+/** GET /auth/session. `enabled` is false until Google login is configured. */
+export interface GoogleSessionResponse {
+  enabled: boolean;
+  /** The signed-in Google account and the wallet Clasp holds for it. */
+  user: { address: Address; email: string } | null;
+}

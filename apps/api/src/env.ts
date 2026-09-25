@@ -39,6 +39,16 @@ const Schema = z.object({
   HOST: z.string().default("0.0.0.0"),
   CORS_ORIGINS: z.string().optional(),
   PUBLIC_API_URL: z.string().url().optional(),
+  SITE_URL: z.string().url().default("https://clasp.fun"),
+
+  // Google login with Clasp-held (custodial) wallets. All four or none.
+  GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+  SESSION_SECRET: z.string().min(32, "must be at least 32 characters").optional(),
+  CUSTODY_MASTER_KEY: z
+    .string()
+    .regex(/^[0-9a-fA-F]{64}$/, "must be 32 bytes of hex (64 characters)")
+    .optional(),
 
   // Indexer role.
   START_BLOCK: z.coerce.bigint().nonnegative().optional(),
@@ -89,6 +99,16 @@ export const env = {
     .map((o) => o.trim())
     .filter(Boolean),
   publicApiUrl: (raw.PUBLIC_API_URL ?? `http://localhost:${raw.PORT}`).replace(/\/+$/, ""),
+  siteUrl: raw.SITE_URL.replace(/\/+$/, ""),
+  google:
+    raw.GOOGLE_CLIENT_ID && raw.GOOGLE_CLIENT_SECRET && raw.SESSION_SECRET && raw.CUSTODY_MASTER_KEY
+      ? {
+          clientId: raw.GOOGLE_CLIENT_ID,
+          clientSecret: raw.GOOGLE_CLIENT_SECRET,
+          sessionSecret: raw.SESSION_SECRET,
+          custodyMasterKey: Buffer.from(raw.CUSTODY_MASTER_KEY, "hex"),
+        }
+      : null,
 
   // The SDK publishes the factory deploy block once deployed; START_BLOCK overrides it.
   startBlock: raw.START_BLOCK ?? (deployBlock > 0n ? deployBlock : undefined),
@@ -128,6 +148,10 @@ export function assertApiEnv() {
     if (origin !== "*" && !/^https?:\/\/[^/]+$/.test(origin)) {
       throw new Error(`CORS_ORIGINS entry ${origin} must be a bare origin like https://clasp.fun`);
     }
+  }
+  const googleVars = [raw.GOOGLE_CLIENT_ID, raw.GOOGLE_CLIENT_SECRET, raw.SESSION_SECRET, raw.CUSTODY_MASTER_KEY];
+  if (!env.google && googleVars.some(Boolean)) {
+    throw new Error("Google login needs all of GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SESSION_SECRET, CUSTODY_MASTER_KEY");
   }
 }
 

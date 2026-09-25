@@ -202,8 +202,13 @@ createdAt }`. `Position`: `{ vault, token, symbol, image, id, amount, weight,
 multiplierBps, lockStart, lockEnd, pending, claimed, matured,
 earlyUnlockBurn }`.
 
-Transactions are built **in the browser** with viem/wagmi against the SDK
-ABIs. The API never holds user keys and is not in the signing path.
+Transactions from browser wallets are built **in the browser** with viem/wagmi
+against the SDK ABIs; the API never holds those users' keys. The exception is
+**Google login**: the API creates and holds a wallet per Google account
+(custodial), signs for it via `POST /custody/send`, and offers `POST /custody/export`.
+Auth endpoints: `GET /auth/session` → `{ enabled, user: { address, email } | null }`,
+`GET /auth/google/start?return=/path`, `GET /auth/google/callback`, `POST /auth/logout`.
+Details and threat model: SECURITY.md, *Custodial Google wallets*.
 
 ## Keeper (in the indexer process)
 
@@ -219,6 +224,8 @@ the Pons factory and records it for the coin page warning.
 
 - Contracts are immutable; there is no upgrade key and no admin path to
   locked coins or rewards.
+- **Google login is custodial**: Clasp holds the key of every Google wallet.
+  Say so wherever Google login is offered and on the security page.
 - **Pons's admin can redirect a coin's creator fees after a 3-day public
   timelock.** Say so on the coin page and the security page; show a warning
   banner if a redirect is pending.

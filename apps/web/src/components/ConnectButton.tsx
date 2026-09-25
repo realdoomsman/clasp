@@ -1,17 +1,25 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useAuth } from '@/lib/auth';
 import { explorerAddress } from '@/lib/chain';
 import { shortAddress } from '@/lib/format';
+import { fetchGoogleSession, GOOGLE_CONNECTOR_ID } from '@/lib/google-wallet';
+import { ExportKeyDialog, WithdrawDialog } from './GoogleWalletDialogs';
 import { Button, Skeleton } from './ui';
+
+const MENU_ITEM = 'w-full rounded-xl px-3 py-2 text-left text-sm hover:bg-paper-2';
 
 export function ConnectButton({ size = 'sm' }: { size?: 'sm' | 'md' }) {
   const auth = useAuth();
-  const { address } = useAccount();
+  const { address, connector } = useAccount();
+  const isGoogle = connector?.id === GOOGLE_CONNECTOR_ID;
+  const google = useQuery({ queryKey: ['google-session'], queryFn: fetchGoogleSession, enabled: isGoogle, staleTime: 60_000 });
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [dialog, setDialog] = useState<'withdraw' | 'export' | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,7 +40,7 @@ export function ConnectButton({ size = 'sm' }: { size?: 'sm' | 'md' }) {
   if (!address) {
     return (
       <Button size={size} onClick={auth.login}>
-        Connect wallet
+        Sign in
       </Button>
     );
   }
@@ -51,19 +59,34 @@ export function ConnectButton({ size = 'sm' }: { size?: 'sm' | 'md' }) {
         {shortAddress(address)}
       </Button>
       {open && (
-        <div role="menu" className="card absolute right-0 z-50 mt-2 w-56 animate-fade p-1.5">
+        <div role="menu" className="card absolute right-0 z-50 mt-2 w-60 animate-fade p-1.5">
+          {isGoogle && (
+            <p className="truncate px-3 pt-2 pb-1 text-xs text-ink-3">
+              Google wallet{google.data?.user ? ` · ${google.data.user.email}` : ''}
+            </p>
+          )}
           <button
             role="menuitem"
             type="button"
-            className="w-full rounded-xl px-3 py-2 text-left text-sm hover:bg-paper-2"
+            className={MENU_ITEM}
             onClick={async () => {
               await navigator.clipboard.writeText(address);
               setCopied(true);
               setTimeout(() => setCopied(false), 1500);
             }}
           >
-            {copied ? 'Copied!' : 'Copy address'}
+            {copied ? 'Copied!' : isGoogle ? 'Copy address (to deposit ETH)' : 'Copy address'}
           </button>
+          {isGoogle && (
+            <>
+              <button role="menuitem" type="button" className={MENU_ITEM} onClick={() => (setOpen(false), setDialog('withdraw'))}>
+                Withdraw ETH
+              </button>
+              <button role="menuitem" type="button" className={MENU_ITEM} onClick={() => (setOpen(false), setDialog('export'))}>
+                Export private key
+              </button>
+            </>
+          )}
           <a
             role="menuitem"
             href={explorerAddress(address)}
@@ -82,9 +105,15 @@ export function ConnectButton({ size = 'sm' }: { size?: 'sm' | 'md' }) {
               await auth.logout();
             }}
           >
-            Disconnect
+            {isGoogle ? 'Log out' : 'Disconnect'}
           </button>
         </div>
+      )}
+      {isGoogle && (
+        <>
+          <WithdrawDialog open={dialog === 'withdraw'} onClose={() => setDialog(null)} address={address} />
+          <ExportKeyDialog open={dialog === 'export'} onClose={() => setDialog(null)} />
+        </>
       )}
     </div>
   );

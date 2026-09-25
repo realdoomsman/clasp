@@ -69,6 +69,7 @@ lockers, the treasury share, `owed[]` balances).
 | Pons owner Safe `0x263ed295dAFaE1d9AAdD6E56c4B6F9f38eE019Dd` (2-of-3) | trusted by every Pons coin | redirect a coin's creator fees after a 3-day timelock; change fee policy for future launches; rescue stuck fees; owns the hook |
 | Pons fee-sweep operator `0xa1018c1D9655292A2dE0F7dEa9a0F848EaA8cA83` | trusted by every Pons coin | sweeps (and converts) post-graduation hook fees |
 | Pons contracts | trusted for fee *delivery* only | the vault never approves or sends anything to them; they can only send ETH in or stop sending |
+| Clasp API (Google wallets) | trusted by Google-login users only | holds every Google wallet's key (AES-256-GCM under `CUSTODY_MASTER_KEY`); signs whatever the signed-in session asks; can do anything with those wallets — see *Custodial Google wallets* |
 
 What an attacker cannot do (enforced + tested):
 - **Snipe an arrival.** ETH is released to lockers linearly over `streamSecs`
@@ -294,6 +295,40 @@ tokens are unaffected; Pons creator fees stop arriving; router fees (2% of Clasp
 trades) still arrive. The vault cannot undo it. Show a warning banner whenever
 `pendingCreatorFeeRecipient(token).newRecipient` is non-zero and
 `isFeeRecipient()` on every coin page.
+
+## Custodial Google wallets
+
+"Continue with Google" is **custodial**: the API creates a wallet per Google
+account and keeps its private key. Browser-wallet users are unaffected (the API
+never sees their keys). Code: `apps/api/src/routes/auth.ts`, `apps/api/src/custody.ts`,
+`apps/web/src/lib/google-wallet.ts`.
+
+- **At rest:** `custodial_accounts.key_cipher` is AES-256-GCM with a random
+  96-bit IV per key, the checksummed-lowercase address as AAD (a ciphertext only
+  opens in its own row), and the master key only in the `CUSTODY_MASTER_KEY`
+  Railway variable of `api` (not in the database, not on `indexer`, not in git).
+  A database leak alone does not expose keys; database + master key does.
+- **Login:** OAuth 2.0 authorization code + PKCE (S256), `state` bound to an
+  HMAC-signed, HttpOnly, 10-minute cookie scoped to `/auth/google`. The ID token
+  comes straight from Google's token endpoint over TLS; `iss`, `aud`,
+  `exp`, `email_verified` are checked. Return paths are same-site paths only.
+- **Sessions:** 32 random bytes in an HttpOnly, Secure, SameSite=Lax cookie on
+  `api.clasp.fun`, 30 days; only its SHA-256 is stored. Logout deletes the row.
+- **Signing:** `POST /custody/send` signs exactly one transaction (`to`, `data`,
+  `value`, `gas` from the request; nonce and fees filled server-side) under a
+  per-wallet Postgres advisory lock. No message signing is offered, so a Google
+  wallet cannot sign permits or off-chain approvals. Every send is in `custody_log`.
+- **CSRF:** SameSite=Lax plus an `Origin` allow-list (`CORS_ORIGINS`) on every
+  POST; CORS allows credentials for those origins only.
+- **Export:** `POST /custody/export` returns the key only within 15 minutes of a
+  fresh Google login (a stolen long-lived cookie cannot export), 5/hour, logged.
+- **What this does not protect against:** a compromised Google account; a
+  compromised `api` service or Railway account (master key + database); a
+  malicious or buggy API deploy. Stolen sessions can send transactions (not
+  export) until they expire or the user logs out.
+- **Rotation:** `key_version` is stored per row; rotating `CUSTODY_MASTER_KEY`
+  needs a re-encryption job (not written yet) — never change the variable without
+  one, or every Google wallet becomes unreadable.
 
 ## Known limitations
 
