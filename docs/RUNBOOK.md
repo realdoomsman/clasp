@@ -115,8 +115,6 @@ args; see `apps/web/Dockerfile` and `apps/web/.env.example`):
 | `NEXT_PUBLIC_API_URL` | `https://api.clasp.fun` | The API. Its `CORS_ORIGINS` must include this site's origin (`NEXT_PUBLIC_SITE_URL`) for GET and `POST /api/images`. |
 | `NEXT_PUBLIC_RPC_URL` | `https://rpc.mainnet.chain.robinhood.com` | Browser reads and wallet transactions. |
 | `NEXT_PUBLIC_SITE_URL` | `https://clasp.fun` | |
-| `NEXT_PUBLIC_PRIVY_APP_ID` | — | Required in production (empty = browser-wallet-only dev mode). The Privy dashboard must allow the site origin. |
-| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | — | Optional. |
 
 Railway passes the service variables as build args. Changing any of them needs
 a rebuild (`railway up --service web --ci`). `web` runs

@@ -171,7 +171,7 @@ chooses the destination) — a reverting owner can never block anyone else.
 contracts/        Foundry project (src/, test/, script/), fork tests vs Robinhood mainnet
 packages/sdk/     @clasp/sdk: ABIs (generated from forge out/), addresses, TS math mirror
 apps/api/         Fastify + Postgres + viem: indexer, keeper, read API, image upload
-apps/web/         Next.js 15.5.26 + React 19.1.9 + wagmi/viem + Privy login
+apps/web/         Next.js 15.5.26 + React 19.1.9 + wagmi/viem, Clasp's own wallet picker (EIP-6963)
 docs/             SPEC.md (this), RUNBOOK.md, SECURITY.md
 ```
 

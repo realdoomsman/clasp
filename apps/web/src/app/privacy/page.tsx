@@ -10,11 +10,10 @@ export default function PrivacyPage() {
         We collect as little as we can. Here is exactly what happens with your data.
       </PageHeader>
       <div className="prose-clasp">
-        <h2>Logging in</h2>
+        <h2>Connecting a wallet</h2>
         <p>
-          Log-in is handled by <strong>Privy</strong>. If you log in with email or Google, Privy processes your email
-          address to sign you in and to create a wallet for you. Privy’s own privacy policy applies to that data. If you
-          connect an existing wallet such as MetaMask, Rabby or Coinbase Wallet, we only see its public address.
+          Clasp has no accounts and no log-in service. You connect a wallet you already use, such as MetaMask, Rabby or
+          Coinbase Wallet, and the site only learns its public address. Your keys never leave your wallet.
         </p>
 
         <h2>The blockchain is public</h2>

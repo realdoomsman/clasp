@@ -3,16 +3,11 @@
 import { createContext, useContext } from 'react';
 
 export type Auth = {
-  /** false until the login provider has restored any previous session */
+  /** false while wagmi restores a previous connection on page load */
   ready: boolean;
-  /** logged in (Privy) or wallet connected (wallet-only mode) */
-  authenticated: boolean;
+  /** opens Clasp's wallet picker */
   login: () => void;
   logout: () => Promise<void>;
-  /** 'privy' offers email, Google and wallets; 'wallet' is the browser-wallet-only mode used when no Privy app id is configured */
-  mode: 'privy' | 'wallet';
-  /** set when login cannot work, e.g. no browser wallet installed in wallet-only mode */
-  unavailableReason: string | null;
 };
 
 export const AuthContext = createContext<Auth | null>(null);

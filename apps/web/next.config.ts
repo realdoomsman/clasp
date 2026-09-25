@@ -10,8 +10,7 @@ const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  // Google and Coinbase sign-in open popups that must be able to talk back.
-  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
+  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
   {
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()',
@@ -27,13 +26,6 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@clasp/sdk'],
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
-  },
-  webpack(config, { isServer }) {
-    // wagmi's connector bundle pulls in @base-org/account, whose Node entry imports
-    // Coinbase's server-side payments SDK (and its uninstalled x402 peers). None of
-    // it runs during server rendering, so resolve it to an empty module there.
-    if (isServer) config.resolve.alias = { ...config.resolve.alias, '@coinbase/cdp-sdk': false };
-    return config;
   },
 };
 

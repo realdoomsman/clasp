@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # Clasp website. Build from the repository root (pnpm workspace):
 #   docker build -f apps/web/Dockerfile -t clasp-web \
-#     --build-arg NEXT_PUBLIC_PRIVY_APP_ID=... \
 #     --build-arg NEXT_PUBLIC_API_URL=https://api.clasp.fun .
 # NEXT_PUBLIC_* values are compiled into the browser bundle, so they are build
 # arguments, not runtime env. Never pass secrets here. Defaults target mainnet.
@@ -22,13 +21,9 @@ COPY apps/web apps/web
 ARG NEXT_PUBLIC_API_URL=https://api.clasp.fun
 ARG NEXT_PUBLIC_RPC_URL=https://rpc.mainnet.chain.robinhood.com
 ARG NEXT_PUBLIC_SITE_URL=https://clasp.fun
-ARG NEXT_PUBLIC_PRIVY_APP_ID=
-ARG NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
     NEXT_PUBLIC_RPC_URL=$NEXT_PUBLIC_RPC_URL \
     NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
-    NEXT_PUBLIC_PRIVY_APP_ID=$NEXT_PUBLIC_PRIVY_APP_ID \
-    NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=$NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID \
     NEXT_TELEMETRY_DISABLED=1
 RUN corepack pnpm --filter @clasp/web build
 

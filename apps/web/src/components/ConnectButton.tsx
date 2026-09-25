@@ -29,18 +29,10 @@ export function ConnectButton({ size = 'sm' }: { size?: 'sm' | 'md' }) {
 
   if (!auth.ready) return <Skeleton className="h-9 w-24" />;
 
-  if (!auth.authenticated) {
-    return (
-      <Button size={size} onClick={auth.login} disabled={!!auth.unavailableReason} title={auth.unavailableReason ?? undefined}>
-        {auth.mode === 'privy' ? 'Log in' : 'Connect wallet'}
-      </Button>
-    );
-  }
-
   if (!address) {
     return (
-      <Button size={size} variant="secondary" busy>
-        Setting up wallet
+      <Button size={size} onClick={auth.login}>
+        Connect wallet
       </Button>
     );
   }
@@ -90,7 +82,7 @@ export function ConnectButton({ size = 'sm' }: { size?: 'sm' | 'md' }) {
               await auth.logout();
             }}
           >
-            {auth.mode === 'privy' ? 'Log out' : 'Disconnect'}
+            Disconnect
           </button>
         </div>
       )}
