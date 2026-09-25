@@ -62,36 +62,48 @@ past that window. Finish a rehearsal inside ~10 minutes of starting anvil, or
 fork from an archive / private RPC. Restart anvil (a fresh fork block) for
 every rehearsal run.
 
-## Deploy (Railway, prebuilt images on GHCR)
+## Deploy (Railway, built from the local tree)
 
-Images are built once, pushed to GHCR, and Railway pulls them; Railway never
-builds from source, so what runs is exactly what was tested.
+Live on mainnet: Railway project `clasp` (Postgres + services `api`,
+`indexer`, `web`), code at `github.com/realdoomsman/clasp` (private).
+Contracts (SDK `addresses.ts`): ClaspFactory
+`0x82866AEAD0a590E5f9e7da74fC8c4FCAFFad60af` (deploy block `72566517`),
+ClaspRouter `0x2c2F23acbEd17827b7873Ce1Bc7430ADEB7Bf92A`, ClaspLauncher
+`0xE9E68B421dD2dE4F6825A9D5288D00732432A7af`, all source-verified on
+Sourcify. Factory owner and treasury: the deployer key
+`0x841b078a88B549F288e07Ad94197C343Afe870e8`.
 
-1. **Build** from the repo root (the image needs the workspace for `@clasp/sdk`):
-   ```sh
-   SHA=$(git rev-parse --short HEAD)
-   docker build -f apps/api/Dockerfile -t ghcr.io/<owner>/clasp-api:$SHA .
-   ```
-2. **Push**: `echo $GHCR_TOKEN | docker login ghcr.io -u <owner> --password-stdin`
-   (a token with `write:packages` only), then `docker push ghcr.io/<owner>/clasp-api:$SHA`.
-3. **Railway project**: add the Postgres plugin; create services `api` and
-   `indexer`, both *Deploy from Docker image* `ghcr.io/<owner>/clasp-api:$SHA`
-   (add GHCR credentials under the service's registry settings if the package
-   is private).
-4. **Variables**: set the table above. `indexer`: `ROLE=indexer`,
-   `START_BLOCK`, `KEEPER_PRIVATE_KEY`, optional thresholds. `api`: no `ROLE`,
-   `CORS_ORIGINS`, `PUBLIC_API_URL`. Both: `DATABASE_URL=${{Postgres.DATABASE_URL}}`, `RPC_URL`.
-5. **Networking**: public domain `api.clasp.fun` on `api` only (port 8080).
-   `indexer` gets no public domain. Health check path for `api`: `/health`.
-6. **Replicas**: `indexer` = 1, and set its deploy strategy so the old
-   container stops before the new one starts (no overlap → no double keeper).
-7. **Roll forward** by retagging the image in both services; roll back by
-   pointing them at the previous `$SHA`. The schema is additive only, so an
-   older image runs against a newer schema.
+Each service builds with Railway's Dockerfile builder from the repo root; the
+service variable `RAILWAY_DOCKERFILE_PATH` picks the Dockerfile
+(`apps/api/Dockerfile` for `api` and `indexer`, `apps/web/Dockerfile` for
+`web`). `railway up` uploads the working tree minus `.gitignore` (so
+`.secrets/` and `.env*` never leave the machine), and the root
+`.dockerignore` filters the build context again.
 
-First boot of `indexer` scans from `START_BLOCK` to head in `LOG_RANGE`
-chunks; progress is the `indexed` log line (`behind` field) and
-`SELECT * FROM indexer_cursor`.
+1. **Link** once from the repo root: `railway link` → project `clasp`.
+2. **Deploy** after committing: `railway up --service api --ci`, then the same
+   for `indexer` and `web`. `--ci` streams the build and exits on the result.
+3. **Variables** (`railway variables --service <name>`): the table above.
+   `api`: `CORS_ORIGINS`, `PUBLIC_API_URL=https://api.clasp.fun`, `PORT=8080`.
+   `indexer`: `ROLE=indexer`, `KEEPER_PRIVATE_KEY` (set with
+   `--set-from-stdin` so it never lands in shell history),
+   `RAILWAY_DEPLOYMENT_OVERLAP_SECONDS=0` (the old container stops before the
+   new one starts: no double keeper). Both: `DATABASE_URL=${{Postgres.DATABASE_URL}}`,
+   `RPC_URL`, `CHAIN_ID=4663`. `START_BLOCK` is not needed (the SDK publishes it).
+4. **Networking**: `api` → `api.clasp.fun` and `api-production-373a2.up.railway.app`
+   (port 8080); `web` → `clasp.fun`, `www.clasp.fun` and
+   `web-production-56f7f.up.railway.app` (port 3000). `indexer` has no public
+   domain and exactly 1 replica.
+5. **DNS** (Porkbun, zone `clasp.fun`): CNAME `api` → `wi1kyisc.up.railway.app`,
+   CNAME/ALIAS apex → `pbywofxf.up.railway.app`, CNAME `www` →
+   `c7goxgt6.up.railway.app`, plus the `_railway-verify*` TXT records shown by
+   `railway domain status <domain>`. Railway issues certificates once they resolve.
+6. **Roll back** from the Railway dashboard (redeploy an earlier deployment).
+   The schema is additive only, so an older build runs against a newer schema.
+
+First boot of `indexer` scans from the deploy block to head in `LOG_RANGE`
+chunks; progress is the `indexed` log line (`behind` field),
+`GET /health` (`indexedBlock`) and `SELECT * FROM indexer_cursor`.
 
 ### Website (`apps/web`)
 
@@ -106,10 +118,11 @@ args; see `apps/web/Dockerfile` and `apps/web/.env.example`):
 | `NEXT_PUBLIC_PRIVY_APP_ID` | — | Required in production (empty = browser-wallet-only dev mode). The Privy dashboard must allow the site origin. |
 | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | — | Optional. |
 
-Build from the repo root and push like the API image:
-`docker build -f apps/web/Dockerfile --build-arg NEXT_PUBLIC_PRIVY_APP_ID=... -t ghcr.io/<owner>/clasp-web:$SHA .`
-Railway service `web` runs `node apps/web/server.js` on port 3000; public
-domain `clasp.fun`.
+Railway passes the service variables as build args. Changing any of them needs
+a rebuild (`railway up --service web --ci`). `web` runs
+`node apps/web/server.js` on port 3000. `NEXT_PUBLIC_API_URL` currently points
+at `https://api-production-373a2.up.railway.app`; switch it to
+`https://api.clasp.fun` once that domain serves.
 
 ### Docker ignore rules (repo-root `.dockerignore`)
 
