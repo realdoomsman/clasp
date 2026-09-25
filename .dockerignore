@@ -1,0 +1,21 @@
+node_modules
+**/node_modules
+**/.next
+contracts/out
+contracts/cache
+contracts/lib
+contracts/broadcast
+.git
+*.log
+**/*.tsbuildinfo
+
+# Secrets and local config must never reach an image. Patterns are rooted at
+# the build context, so each needs the **/ prefix to cover apps/*.
+.secrets
+**/.env
+**/.env.*
+!**/.env.example
+**/*.tmp
+**/*.tmp.*
+**/.keeper-*.json
+**/*.key

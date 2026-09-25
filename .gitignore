@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+cache
+*.log
+.env
+.env.*
+!.env.example
+*.tmp
+*.tmp.*
+.keeper-*.json
+**/broadcast/*/31337/
+*.tsbuildinfo
+.secrets/
