@@ -32,7 +32,7 @@ Secrets live only in the platform's variables. Never commit them; the repo
 | Variable | Role | Default | Notes |
 |---|---|---|---|
 | `DATABASE_URL` | both | — (required) | Railway Postgres reference variable. |
-| `RPC_URL` | both | `https://rpc.mainnet.chain.robinhood.com` | The public RPC rate-limits bursts (HTTP 429) and keeps only ~12–18 minutes of historical state (older `eth_call`/`eth_getBalance` at a past block fail; logs are kept). A private endpoint is strongly recommended for the indexer. |
+| `RPC_URL` | both | `https://rpc.mainnet.chain.robinhood.com` | **Live: Alchemy** (`https://robinhood-mainnet.g.alchemy.com/v2/<key>`, same key as the `pyre` project; copy in `.secrets/alchemy-rpc-url`). Archive state and 50,000-block `eth_getLogs` ranges work. The public default rate-limits bursts (HTTP 429) and keeps only ~12–18 minutes of historical state. |
 | `CHAIN_ID` | both | `4663` | Boot fails if `RPC_URL` serves another chain (indexer). `4663` also switches on the mainnet checks below. |
 | `LOG_LEVEL` | both | `info` | `debug` logs every empty indexer range. |
 | `NODE_ENV` | both | set to `production` by the image | |
@@ -99,7 +99,9 @@ build context again.
 3. **Variables** (`railway variables --service <name>`): the table above.
    `api`: `CORS_ORIGINS`, `PUBLIC_API_URL=https://api.clasp.fun`, `PORT=8080`,
    the four Google variables. `indexer`: `ROLE=indexer`, `KEEPER_PRIVATE_KEY`.
-   Set secrets with `--set-from-stdin` so they never land in shell history.
+   Set secrets with `--set-from-stdin` so they never land in shell history, and
+   pipe from WSL/bash (`railway variables --service api --set-from-stdin RPC_URL < file`):
+   PowerShell `-Command` pipelines prepend a UTF-8 byte-order mark to the value.
    Both: `DATABASE_URL=${{Postgres.DATABASE_URL}}`, `RPC_URL`, `CHAIN_ID=4663`.
    `START_BLOCK` is not needed (the SDK publishes it).
 4. **Networking**: `api` → `api.clasp.fun` and `api-production-373a2.up.railway.app`
@@ -142,7 +144,7 @@ args; see `apps/web/Dockerfile` and `apps/web/.env.example`):
 | Variable | Default | Notes |
 |---|---|---|
 | `NEXT_PUBLIC_API_URL` | `https://api.clasp.fun` | The API. Its `CORS_ORIGINS` must include this site's origin (`NEXT_PUBLIC_SITE_URL`) for GET and `POST /api/images`. |
-| `NEXT_PUBLIC_RPC_URL` | `https://rpc.mainnet.chain.robinhood.com` | Browser reads and wallet transactions. |
+| `NEXT_PUBLIC_RPC_URL` | `https://rpc.mainnet.chain.robinhood.com` | Browser reads (wallets send through their own RPC). Stays the public RPC on purpose: anything here is visible to every visitor, so an Alchemy key would be free for anyone to burn. |
 | `NEXT_PUBLIC_SITE_URL` | `https://clasp.fun` | |
 
 Railway passes the service variables as build args. Changing any of them needs
