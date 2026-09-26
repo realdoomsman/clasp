@@ -38,10 +38,10 @@ transaction), the user's side pins them: `ClaspLauncher.launch` reverts
 `expectedTreasury` the user signed (the web passes `factory.defaultsHash()` and
 `factory.treasury()`), and it checks this before handing the Pons fee recipient to
 the vault. `createVault(token, expectedTermsHash)` reverts `TermsMismatch` on a
-non-zero hash that differs from `defaultsHash()`. Attaching an existing coin is
-two steps (`createVault`, then the recipient's `transferCreatorFeeRecipient`), so
-the recipient must check the vault's `terms()` and `treasury()` before the second
-step. Tests: `test_launch_refusesChangedTermsOrTreasury`, `test_createVault_termsPin`,
+non-zero hash that differs from `defaultsHash()`. Clasp coins are launch-only: the
+indexer ignores any vault not created by `ClaspLauncher` (SPEC, *Launch only*), so
+a vault registered directly on the factory never appears on the site and is never
+touched by the keeper. Tests: `test_launch_refusesChangedTermsOrTreasury`, `test_createVault_termsPin`,
 `test_setDefaults_validation`.
 - `setPaused(bool)` — blocks `createVault` only (and therefore `ClaspLauncher.launch`).
 - Transfer ownership (two-step) or renounce it.
@@ -336,16 +336,12 @@ never sees their keys). Code: `apps/api/src/routes/auth.ts`, `apps/api/src/custo
 - **Fee delivery depends on Pons.** Post-graduation memecoin-denominated hook fees
   reach the vault only after the Pons operator sweeps them. The Pons owner can
   redirect creator fees (above) or change fee policy for future launches.
-- **Coins registered before the recipient moves** (`createVault` does not require
-  it) earn only router fees until the current recipient calls
-  `transferCreatorFeeRecipient(token, vault)`; `isFeeRecipient()` tells.
-- **Buyback history.** `createVault` refuses coins whose buyback flag is on, but a
-  coin that had buyback on earlier may still have a `PonsV2BuybackVault` vest
-  (`totalLocked(token) > 0`); its creator share follows the recipient, so future
-  releases would send memecoin to the vault, where it stays undistributed. Check
-  before transferring the recipient.
-- **Stray tokens** sent to a vault outside `lock` (donations, memecoin rescues or
-  vest releases above) cannot be recovered or distributed — there is deliberately
+- **Directly created vaults.** `createVault` is permissionless on-chain, so anyone
+  can register a vault for an eligible Pons coin without the launcher. Such a
+  vault is not a Clasp coin: the indexer, API, site and keeper ignore it, and the
+  router still charges its 2% to it only if someone calls the router directly.
+- **Stray tokens** sent to a vault outside `lock` (donations or memecoin rescues)
+  cannot be recovered or distributed — there is deliberately
   no sweep function. Plain ETH sent to a vault is treated as fee inflow (90/10).
 - **Stream semantics.** Arrivals are pooled into one linear stream; a new arrival
   restarts the window for everything still undistributed (Synthetix-style), so

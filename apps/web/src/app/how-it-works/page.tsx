@@ -143,12 +143,11 @@ export default function HowItWorksPage() {
           coin’s page lists the exact rules of its vault.
         </p>
 
-        <h2>Launching and joining</h2>
+        <h2>Launching</h2>
         <p>
-          A creator can <Link href="/launch">launch a new coin</Link> with a Clasp vault built in, in one transaction:
-          the coin is created on Pons with its creator fees pointed at the vault, the creator’s first buy is made, and
-          part of it can be locked straight away. A coin already on Pons can join too: anyone registers its vault, and
-          the coin’s current fee recipient points its creator fees at it.
+          Every Clasp coin is <Link href="/launch">launched on Clasp</Link>, with its vault built in, in one transaction:
+          the coin is created on Pons with its creator fees pointed at the vault before anyone can trade, the creator’s
+          first buy is made, and part of it can be locked straight away. Coins launched elsewhere can’t be added.
         </p>
 
         <h2>The yearly rate</h2>

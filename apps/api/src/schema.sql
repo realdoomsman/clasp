@@ -11,8 +11,8 @@
 CREATE TABLE IF NOT EXISTS coins (
   token                  text PRIMARY KEY,
   vault                  text NOT NULL UNIQUE,
-  registered_by          text NOT NULL,          -- VaultCreated.creator (who called createVault)
-  creator                text,                   -- Pons deployer of the coin
+  registered_by          text NOT NULL,          -- VaultCreated.creator: always ClaspLauncher
+  creator                text,                   -- Launched.creator: who launched the coin through Clasp
   name                   text NOT NULL DEFAULT '',
   symbol                 text NOT NULL DEFAULT '',
   decimals               integer NOT NULL DEFAULT 18,

@@ -1,18 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { isAddressEqual } from 'viem';
-import { useAccount } from 'wagmi';
-import { ButtonLink, Notice } from '@/components/ui';
+import { Notice } from '@/components/ui';
 import type { CoinDetail } from '@/lib/api';
 import { explorerAddress } from '@/lib/chain';
 import { formatDate, formatRelative, shortAddress } from '@/lib/format';
 
-/** Warnings about the coin's Pons creator fees: a pending admin redirect, or fees not reaching the vault. */
+/** Warnings about the coin's Pons creator fees: a pending admin redirect, or fees no longer reaching the vault. */
 export function CoinBanners({ coin }: { coin: CoinDetail }) {
-  const { address } = useAccount();
   const redirect = coin.adminRedirectPending;
-  const isRecipient = !!address && isAddressEqual(address, coin.feeRecipient);
 
   return (
     <div className="space-y-3">
@@ -39,17 +35,8 @@ export function CoinBanners({ coin }: { coin: CoinDetail }) {
             <a href={explorerAddress(coin.feeRecipient)} target="_blank" rel="noreferrer" className="num">
               {shortAddress(coin.feeRecipient)}
             </a>
-            . Lockers still earn Clasp’s 2% trading fee, but not the creator fees, until that address points them at this
-            coin’s vault.
+            . Lockers still earn Clasp’s 2% trading fee, but not the creator fees. <Link href="/security#pons-admin">Why this can happen</Link>.
           </p>
-          {isRecipient && (
-            <div className="mt-3">
-              {/* One flow for the handover: /launch#join shows and checks the vault's rules first. */}
-              <ButtonLink href={`/launch?token=${coin.token}#join`} size="sm">
-                You’re the fee recipient: send creator fees to the vault
-              </ButtonLink>
-            </div>
-          )}
         </Notice>
       )}
     </div>

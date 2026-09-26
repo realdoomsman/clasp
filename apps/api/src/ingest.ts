@@ -1,7 +1,7 @@
 import { addresses, ponsFactoryAbi, ponsTokenAbi } from "@clasp/sdk";
 import { getAddress, isAddressEqual, parseEventLogs, zeroAddress, type Address, type Hash } from "viem";
 import { publicClient } from "./chain.ts";
-import { attributeCreator, clasp, claspDeployed, claspFactoryAbi, claspLauncherAbi, claspRouterAbi, claspVaultAbi } from "./clasp.ts";
+import { clasp, claspDeployed, claspFactoryAbi, claspLauncherAbi, claspRouterAbi, claspVaultAbi } from "./clasp.ts";
 import type postgres from "postgres";
 import { sql } from "./db.ts";
 import { cleanText, ponsRecipientEvents, safeUrl, socialUrl } from "./pons.ts";
@@ -170,7 +170,7 @@ export async function ingestRange(fromBlock: bigint, toBlock: bigint, vaults: Va
     abi: claspFactoryAbi,
     logs: coreLogs.filter((l) => isAddressEqual(l.address, clasp.factory)),
   });
-  const trades = parseEventLogs({
+  const routerTrades = parseEventLogs({
     abi: claspRouterAbi,
     eventName: "Trade",
     logs: coreLogs.filter((l) => clasp.router !== zeroAddress && isAddressEqual(l.address, clasp.router)),
@@ -184,11 +184,25 @@ export async function ingestRange(fromBlock: bigint, toBlock: bigint, vaults: Va
   });
   const launchedCreator = new Map(launched.map((e) => [getAddress(e.args.token), getAddress(e.args.creator)]));
 
-  // 2. Vaults created in this range join the scan of this same range, since
-  // a coin's first lock can land in the block its vault is created.
-  const created = factoryEvents.flatMap((e) => (e.eventName === "VaultCreated" ? [e] : []));
+  // 2. Clasp coins are only coins launched through ClaspLauncher: its Launched
+  // event and the VaultCreated it caused share one transaction (so one range),
+  // and the launcher is the vault's registrant. A vault anyone else creates
+  // directly on the permissionless factory is not a Clasp coin and is ignored.
+  // New vaults join the scan of this same range, since a coin's first lock can
+  // land in the block its vault is created.
+  const created = factoryEvents.flatMap((e) =>
+    e.eventName === "VaultCreated" &&
+    clasp.launcher !== zeroAddress &&
+    isAddressEqual(e.args.creator, clasp.launcher) &&
+    launchedCreator.has(getAddress(e.args.token))
+      ? [e]
+      : [],
+  );
   const scanVaults: VaultIndex = new Map(vaults);
   for (const e of created) scanVaults.set(getAddress(e.args.vault), getAddress(e.args.token));
+  const tokens = new Set(scanVaults.values());
+  // The router trades any coin that has a vault; only Clasp coins' trades are kept.
+  const trades = routerTrades.filter((t) => tokens.has(getAddress(t.args.token)));
 
   const vaultLogs = (
     await Promise.all(
@@ -201,7 +215,6 @@ export async function ingestRange(fromBlock: bigint, toBlock: bigint, vaults: Va
 
   // 3. Pons factory: proposals, cancellations and changes of the creator fee
   // recipient, kept only for Clasp coins. Rare, so one unfiltered-by-token call.
-  const tokens = new Set(scanVaults.values());
   const ponsEvents = tokens.size
     ? (
         await publicClient.getLogs({ address: addresses.ponsFactory, events: ponsRecipientEvents, fromBlock, toBlock, strict: true })
@@ -233,16 +246,10 @@ export async function ingestRange(fromBlock: bigint, toBlock: bigint, vaults: Va
   const coinRows: CoinRow[] = await mapLimit(created, 4, async (e) => {
     const token = getAddress(e.args.token);
     const coin = await describeCoin(token, getAddress(e.args.vault));
-    const registeredBy = getAddress(e.args.creator);
     return {
       ...coin,
-      creator: attributeCreator({
-        launchedCreator: launchedCreator.get(token) ?? null,
-        ponsDeployer: coin.creator,
-        registeredBy,
-        launcher: clasp.launcher,
-      }),
-      registered_by: registeredBy,
+      creator: launchedCreator.get(token)!,
+      registered_by: getAddress(e.args.creator),
       terms: sql.json(plain(e.args.terms)),
       created_block: e.blockNumber.toString(),
       created_at: timeOf(e),
@@ -291,11 +298,6 @@ export async function ingestRange(fromBlock: bigint, toBlock: bigint, vaults: Va
   await sql.begin(async (tx) => {
     if (coinRows.length) {
       await tx`INSERT INTO coins ${tx(coinRows)} ON CONFLICT (token) DO NOTHING`;
-    }
-    // Also covers a coin row already present (e.g. a replayed range written
-    // before the launcher was known): the launcher's creator always wins.
-    for (const [token, creator] of launchedCreator) {
-      await tx`UPDATE coins SET creator = ${creator} WHERE token = ${token}`;
     }
 
     for (const e of opened) {

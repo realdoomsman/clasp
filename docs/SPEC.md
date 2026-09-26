@@ -4,9 +4,23 @@ Clasp lets holders of a memecoin **lock** their coins and **earn that coin's
 trading fees in ETH**. The longer and larger the lock, the bigger the share.
 Chain: **Robinhood Chain mainnet** (chain id `4663`, native gas ETH, public RPC
 `https://rpc.mainnet.chain.robinhood.com`, explorer
-`https://robinhoodchain.blockscout.com`). Coins come from the **Pons** launchpad
-(v2 stack). This document is the shared contract between the contracts, the
-SDK, the API/indexer/keeper and the website. Change it before changing code.
+`https://robinhoodchain.blockscout.com`). Coins are launched on the **Pons**
+launchpad (v2 stack) **through Clasp only**: a coin launched anywhere else can't be
+added (see *Launch only*). This document is the shared contract between the
+contracts, the SDK, the API/indexer/keeper and the website. Change it before
+changing code.
+
+## Launch only
+
+A Clasp coin is a coin launched through `ClaspLauncher`. There is no way to
+bring an existing Pons coin in: Pons's holder-rewards coins point their creator
+fees at a Pons-owned distributor that can never hand them to anyone else, and a
+coin whose fees a creator could redirect later is a weaker promise than one whose
+fees are the vault's from the first trade. `ClaspFactory.createVault` stays
+permissionless on-chain (the contracts are immutable), but the indexer only
+registers a vault whose `VaultCreated.creator` is the launcher and whose
+`Launched` event is in the same transaction; any other vault is ignored by the
+API, the site and the keeper.
 
 Plain-language pitch (use it on the site): *"Lock a coin you believe in. Earn a
 share of every trade, paid in ETH."*
@@ -38,7 +52,8 @@ must revert.
   - `getLaunchedToken(token)` → includes `creatorFeeRecipient`,
     `creatorTaxBps`, buyback flag, phase, poolId, pair token.
   - `transferCreatorFeeRecipient(token, newRecipient)` — only the current
-    recipient. This is how an existing coin joins Clasp.
+    recipient. `ClaspLauncher` calls it once, at launch, to hand the fees to the
+    new vault before any trade.
   - `launchToken(TokenParams, launchConfigId, pairToken)` payable
     (`launchFee()` = 0.0005 ETH) and `PonsV2LaunchAndBuy`
     `0xe33E9E479dF8802cb0866d5d05258bEc4cF62948`
@@ -101,13 +116,11 @@ chooses the destination) — a reverting owner can never block anyone else.
   `ClaspVault` per token with CREATE2 (salt = token), so
   `predictVault(token)` is known before the coin exists.
   - `createVault(address token, bytes32 expectedTermsHash) returns (address
-    vault)` — permissionless; reverts if a vault exists, the token is not a
+    vault)` — permissionless on-chain; reverts if a vault exists, the token is not a
     Pons v2 launch, is not ETH-paired, or has buyback on, and `TermsMismatch`
-    if `expectedTermsHash != 0` and differs from `defaultsHash()`. Does **not**
-    require the vault to already be the fee recipient (a coin can be registered
-    first, the recipient transferred after); the vault exposes
-    `isFeeRecipient()`. Before transferring the recipient, the attach flow must
-    check the vault's `terms()` and `treasury()`.
+    if `expectedTermsHash != 0` and differs from `defaultsHash()`. Only calls made
+    by `ClaspLauncher` create Clasp coins (*Launch only*); the vault exposes
+    `isFeeRecipient()`.
   - `defaultsHash()` = `keccak256(abi.encode(defaults()))`, equal to
     `keccak256(abi.encode(vault.terms()))` of a vault created now.
   - Owner-settable defaults are bounded: treasury share ≤ 20%, `penaltyBps` ≤

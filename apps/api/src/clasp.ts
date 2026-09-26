@@ -1,5 +1,5 @@
 import { addresses, claspFactoryAbi, claspLauncherAbi, claspRouterAbi, claspVaultAbi } from "@clasp/sdk";
-import { isAddressEqual, zeroAddress, type Address } from "viem";
+import { zeroAddress, type Address } from "viem";
 import { env } from "./env.ts";
 
 export { claspFactoryAbi, claspLauncherAbi, claspRouterAbi, claspVaultAbi };
@@ -16,22 +16,3 @@ export const clasp: { factory: Address; router: Address; launcher: Address } = {
 };
 
 export const claspDeployed = clasp.factory !== zeroAddress;
-
-/**
- * Who a coin's page credits as its creator. A coin launched through
- * ClaspLauncher has the launcher contract as both its Pons deployer and the
- * caller of createVault, so the launcher's own `Launched.creator` wins; any
- * other coin is credited to its Pons deployer, falling back to whoever
- * registered the vault. The launcher itself is never an answer.
- */
-export function attributeCreator(input: {
-  launchedCreator: Address | null;
-  ponsDeployer: Address | null;
-  registeredBy: Address | null;
-  launcher: Address;
-}): Address | null {
-  if (input.launchedCreator) return input.launchedCreator;
-  const notLauncher = (a: Address | null) =>
-    a !== null && (input.launcher === zeroAddress || !isAddressEqual(a, input.launcher)) ? a : null;
-  return notLauncher(input.ponsDeployer) ?? notLauncher(input.registeredBy);
-}

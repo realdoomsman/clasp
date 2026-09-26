@@ -173,12 +173,13 @@ export function CoinView({ token }: { token: Address }) {
         </div>
       ) : query.isError ? (
         query.error instanceof ApiError && query.error.status === 404 ? (
-          <EmptyState title="This coin doesn’t have a Clasp vault">
+          <EmptyState title="This coin isn’t on Clasp">
             <p>
-              <span className="num">{shortAddress(token)}</span> isn’t on Clasp yet. If it’s a Pons coin, it can join.
+              <span className="num">{shortAddress(token)}</span> wasn’t launched through Clasp. Only coins launched on Clasp
+              have a Clasp vault.
             </p>
-            <ButtonLink href="/launch#join" size="sm" className="mt-4">
-              Add a Pons coin to Clasp
+            <ButtonLink href="/launch" size="sm" className="mt-4">
+              Launch a coin on Clasp
             </ButtonLink>
           </EmptyState>
         ) : (

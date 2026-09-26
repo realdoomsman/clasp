@@ -1,8 +1,8 @@
 import { addresses, ponsCurveAbi, ponsFactoryAbi, ponsFeeEscrowAbi, ponsTokenAbi } from "@clasp/sdk";
-import { getAddress, zeroAddress, type Address } from "viem";
+import { zeroAddress, type Address } from "viem";
 import type { Logger } from "pino";
 import { publicClient } from "./chain.ts";
-import { attributeCreator, clasp, claspLauncherAbi, claspVaultAbi } from "./clasp.ts";
+import { claspVaultAbi } from "./clasp.ts";
 import { sql } from "./db.ts";
 import {
   MULTICALL3,
@@ -137,48 +137,7 @@ async function readCoin(token: Address, vault: Address) {
   };
 }
 
-/** Tokens already looked up by the backfill in this process, found or not. */
-const creatorChecked = new Set<Address>();
-
-/**
- * Rows written before launcher events were indexed credit the launcher
- * contract (it is both the Pons deployer and the createVault caller of a coin
- * it launched). Its `Launched` event sits in the vault-creation block, so one
- * single-block getLogs per such coin finds the real creator.
- */
-async function backfillCreators(log: Logger): Promise<void> {
-  if (clasp.launcher === zeroAddress) return;
-  const rows = await sql<{ token: Address; creator: Address | null; registered_by: Address; created_block: string }[]>`
-    SELECT token, creator, registered_by, created_block FROM coins
-    WHERE creator IS NULL OR creator = ${clasp.launcher} OR registered_by = ${clasp.launcher}
-  `;
-  for (const row of rows) {
-    if (creatorChecked.has(row.token)) continue;
-    const block = BigInt(row.created_block);
-    const [event] = await publicClient.getLogs({
-      address: clasp.launcher,
-      event: claspLauncherAbi.find((item) => item.type === "event" && item.name === "Launched")!,
-      args: { token: row.token },
-      fromBlock: block,
-      toBlock: block,
-      strict: true,
-    });
-    creatorChecked.add(row.token);
-    const creator = attributeCreator({
-      launchedCreator: event ? getAddress(event.args.creator) : null,
-      ponsDeployer: row.creator,
-      registeredBy: row.registered_by,
-      launcher: clasp.launcher,
-    });
-    if (creator !== row.creator) {
-      await sql`UPDATE coins SET creator = ${creator} WHERE token = ${row.token}`;
-      log.info({ token: row.token, from: row.creator, to: creator }, "creator backfilled");
-    }
-  }
-}
-
 export async function reconcile(log: Logger): Promise<void> {
-  await backfillCreators(log).catch((err) => log.warn({ err }, "creator backfill failed"));
   const coins = await sql<{ token: Address; vault: Address }[]>`SELECT token, vault FROM coins ORDER BY created_block`;
   let failed = 0;
   for (const group of chunk(coins, COINS_PER_CHUNK)) {
