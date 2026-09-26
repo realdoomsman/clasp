@@ -1,5 +1,6 @@
 'use client';
 
+import { officialCoin } from '@clasp/sdk';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useDeferredValue, useState } from 'react';
 import { CoinCard } from '@/components/CoinCard';
@@ -69,11 +70,14 @@ export function CoinsBrowser() {
         )
       ) : (
         <ul className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${query.isPlaceholderData ? 'opacity-60' : ''}`}>
-          {query.data.coins.map((coin) => (
-            <li key={coin.token}>
-              <CoinCard coin={coin} />
-            </li>
-          ))}
+          {[...query.data.coins]
+            // The official coin always leads the list when it's in the results.
+            .sort((a, b) => Number(b.token === officialCoin.token) - Number(a.token === officialCoin.token))
+            .map((coin) => (
+              <li key={coin.token}>
+                <CoinCard coin={coin} />
+              </li>
+            ))}
         </ul>
       )}
     </div>

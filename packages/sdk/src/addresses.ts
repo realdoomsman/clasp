@@ -28,6 +28,20 @@ export const addresses = {
 /** Block of the ClaspFactory deployment (indexer start). */
 export const deployBlock = 72566517n;
 
+/** The one official Clasp coin, $CLASP, launched through ClaspLauncher on 2026-09-26. */
+export const officialCoin = {
+  token: '0x54dFCA823a37Df628B573E7CAEdb2c02E24C13a3',
+  vault: '0x3db0035e122e248415F85a5931b207057ff7661d',
+  /** The dev's wallet: owner of the 1-year founding lock, whose fees the dev gives away (bought back and burned). */
+  devWallet: '0x6866d127943f3c9417FC571eCDF82f6803738060',
+} as const;
+
+/**
+ * Clasp coins kept off lists, leaderboards and site-wide totals. Their pages stay
+ * reachable by address. Clasp Test ($CLTEST) was the end-to-end mainnet test.
+ */
+export const unlistedTokens: readonly `0x${string}`[] = ['0x1fFBca055F0f0d1c5F81b456540DF1f395D9E173'];
+
 export type ClaspAddresses = typeof addresses;
 
 export const robinhoodChain = defineChain({

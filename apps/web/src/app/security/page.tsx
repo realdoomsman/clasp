@@ -1,4 +1,4 @@
-import { addresses } from '@clasp/sdk';
+import { addresses, officialCoin } from '@clasp/sdk';
 import type { Metadata } from 'next';
 import { PageHeader } from '@/components/ui';
 import { claspContracts, explorerAddress } from '@/lib/chain';
@@ -12,6 +12,8 @@ const CONTRACTS: { name: string; what: string; address: string }[] = [
   { name: 'Clasp factory', what: 'Creates one vault per coin', address: claspContracts.factory },
   { name: 'Clasp router', what: 'Buys and sells, sending the 2% fee to the coin’s vault', address: claspContracts.router },
   { name: 'Clasp launcher', what: 'Launches a coin on Pons with its vault in one transaction', address: claspContracts.launcher },
+  { name: 'Official $CLASP coin', what: 'The one official Clasp coin. Any other “Clasp” coin is a copy.', address: officialCoin.token },
+  { name: '$CLASP vault', what: 'Holds locked CLASP and pays its lockers', address: officialCoin.vault },
   { name: 'Pons launch factory', what: 'The Pons launchpad (owned by a 2-of-3 Safe)', address: addresses.ponsFactory },
   { name: 'Pons fee escrow', what: 'Holds creator fees until the vault pulls them in', address: addresses.ponsFeeEscrow },
   { name: 'Pons pool hook', what: 'Trading after a coin moves to Uniswap', address: addresses.ponsMemeHook },

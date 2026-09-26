@@ -1,3 +1,4 @@
+import { unlistedTokens } from "@clasp/sdk";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { getAddress, isAddress, type Address, type Hash } from "viem";
 import { z } from "zod";
@@ -30,6 +31,9 @@ function shortCache(reply: FastifyReply) {
   reply.header("cache-control", "public, max-age=5");
 }
 
+/** Coins kept off lists, leaderboards and totals (still served by address). */
+const UNLISTED = [...unlistedTokens];
+
 async function findCoin(token: Address): Promise<CoinRecord | undefined> {
   const [coin] = await sql<CoinRecord[]>`
     SELECT ${sql.unsafe(COIN_SELECT)} FROM coins c ${sql.unsafe(COIN_JOINS)}
@@ -44,11 +48,13 @@ export async function coinRoutes(app: FastifyInstance) {
       { coins: number; locked_value: string; paid: string; fees_24h: string; lockers: number }[]
     >`
       SELECT
-        (SELECT count(*)::int FROM coins) AS coins,
-        (SELECT COALESCE(sum(trunc(total_locked * price_wei / 1e18)), 0)::text FROM coins WHERE price_wei IS NOT NULL) AS locked_value,
-        (SELECT COALESCE(sum(lifetime_rewards), 0)::text FROM coins) AS paid,
-        (SELECT COALESCE(sum(amount), 0)::text FROM events WHERE kind = 'fees' AND block_time > now() - interval '1 day') AS fees_24h,
-        (SELECT count(DISTINCT owner)::int FROM positions WHERE open) AS lockers
+        (SELECT count(*)::int FROM coins WHERE token <> ALL(${UNLISTED}::text[])) AS coins,
+        (SELECT COALESCE(sum(trunc(total_locked * price_wei / 1e18)), 0)::text FROM coins
+          WHERE price_wei IS NOT NULL AND token <> ALL(${UNLISTED}::text[])) AS locked_value,
+        (SELECT COALESCE(sum(lifetime_rewards), 0)::text FROM coins WHERE token <> ALL(${UNLISTED}::text[])) AS paid,
+        (SELECT COALESCE(sum(amount), 0)::text FROM events
+          WHERE kind = 'fees' AND block_time > now() - interval '1 day' AND token <> ALL(${UNLISTED}::text[])) AS fees_24h,
+        (SELECT count(DISTINCT owner)::int FROM positions WHERE open AND token <> ALL(${UNLISTED}::text[])) AS lockers
     `;
     shortCache(reply);
     return {
@@ -63,13 +69,13 @@ export async function coinRoutes(app: FastifyInstance) {
   app.get("/coins", async (request, reply): Promise<CoinsResponse> => {
     const query = CoinsQuery.parse(request.query);
     const search = query.search;
-    let where = sql``;
+    let where = sql`WHERE c.token <> ALL(${UNLISTED}::text[])`;
     if (search && isAddress(search, { strict: false })) {
       const address = getAddress(search);
-      where = sql`WHERE c.token = ${address} OR c.vault = ${address}`;
+      where = sql`${where} AND (c.token = ${address} OR c.vault = ${address})`;
     } else if (search) {
       const pattern = `%${search.replace(/[\\%_]/g, (ch) => `\\${ch}`)}%`;
-      where = sql`WHERE c.symbol ILIKE ${pattern} OR c.name ILIKE ${pattern}`;
+      where = sql`${where} AND (c.symbol ILIKE ${pattern} OR c.name ILIKE ${pattern})`;
     }
     const order = {
       new: sql`c.created_block DESC`,
@@ -225,6 +231,7 @@ export async function coinRoutes(app: FastifyInstance) {
       const rows = await sql<{ owner: Address; claimed: string; positions: number }[]>`
         SELECT owner, sum(claimed)::text AS claimed, count(*) FILTER (WHERE open)::int AS positions
         FROM positions
+        WHERE token <> ALL(${UNLISTED}::text[])
         GROUP BY owner
         HAVING sum(claimed) > 0
         ORDER BY sum(claimed) DESC, owner
@@ -236,6 +243,7 @@ export async function coinRoutes(app: FastifyInstance) {
     if (board === "coins") {
       const rows = await sql<CoinRecord[]>`
         SELECT ${sql.unsafe(COIN_SELECT)} FROM coins c ${sql.unsafe(COIN_JOINS)}
+        WHERE c.token <> ALL(${UNLISTED}::text[])
         ORDER BY c.lifetime_rewards DESC, c.created_block
         LIMIT ${limit}
       `;
@@ -271,7 +279,7 @@ export async function coinRoutes(app: FastifyInstance) {
       SELECT p.owner, p.token, c.symbol, c.logo, p.id::text, p.amount::text,
              (p.lock_end - p.lock_start) AS duration, p.lock_end, p.multiplier_bps
       FROM positions p JOIN coins c ON c.vault = p.vault
-      WHERE p.open
+      WHERE p.open AND p.token <> ALL(${UNLISTED}::text[])
       ORDER BY p.lock_end - p.lock_start DESC, p.amount DESC
       LIMIT ${limit}
     `;

@@ -25,6 +25,18 @@ API, the site and the keeper.
 Plain-language pitch (use it on the site): *"Lock a coin you believe in. Earn a
 share of every trade, paid in ETH."*
 
+## Official coin and unlisted coins
+
+`@clasp/sdk` exports `officialCoin` ($CLASP `0x54dFCA823a37Df628B573E7CAEdb2c02E24C13a3`,
+vault `0x3db0…661d`) and `unlistedTokens`. The site features the official coin on
+the home page, badges it and puts it first in the coin list, and shows its address
+as the only official one. The dev's 1-year founding lock (`0x6866…8060`) earns like
+any lock (a vault can't make a lock that doesn't earn); the dev gives those fees
+away by buying back and burning CLASP, and copy must say exactly that, never "no
+dev lock" or "the dev earns nothing on-chain". Unlisted coins (the $CLTEST mainnet
+test) are left out of `/api/coins`, `/api/stats` and every leaderboard; their
+pages stay reachable by address.
+
 ## Where the money comes from
 
 Every Clasp coin has one **vault** contract. ETH arrives in it from two places:

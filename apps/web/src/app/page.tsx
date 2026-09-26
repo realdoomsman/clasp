@@ -4,6 +4,7 @@ import { Calculator } from '@/components/home/Calculator';
 import { Faq } from '@/components/home/Faq';
 import { HomeStats } from '@/components/home/HomeStats';
 import { MoneyFlow } from '@/components/home/MoneyFlow';
+import { OfficialCoin } from '@/components/home/OfficialCoin';
 import { LogoMark } from '@/components/Logo';
 import { ButtonLink } from '@/components/ui';
 
@@ -79,6 +80,10 @@ export default function HomePage() {
           <HeroArt />
         </div>
       </section>
+
+      <Section id="official" eyebrow="The official coin" title="$CLASP, launched on Clasp">
+        <OfficialCoin />
+      </Section>
 
       <Section id="how" eyebrow="How it works" title="Three steps. No jargon.">
         <ol className="grid gap-4 md:grid-cols-3">

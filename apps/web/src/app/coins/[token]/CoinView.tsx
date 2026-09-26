@@ -1,6 +1,6 @@
 'use client';
 
-import { claspVaultAbi } from '@clasp/sdk';
+import { claspVaultAbi, officialCoin } from '@clasp/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import type { Address } from 'viem';
@@ -99,6 +99,7 @@ function CoinBody({ coin }: { coin: CoinDetail }) {
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-3xl font-semibold break-words sm:text-4xl">{coin.name}</h1>
               <Badge tone={coin.graduated ? 'neutral' : 'accent'}>{coin.graduated ? 'Trading on Uniswap' : 'On the Pons curve'}</Badge>
+              {coin.token === officialCoin.token && <Badge tone="good">Official $CLASP</Badge>}
             </div>
             <p className="num mt-1 text-ink-3">
               ${coin.symbol} ·{' '}
@@ -126,6 +127,13 @@ function CoinBody({ coin }: { coin: CoinDetail }) {
           <Socials coin={coin} />
         </div>
       </header>
+
+      {coin.token === officialCoin.token && (
+        <p className="rounded-2xl bg-accent-tint px-4 py-3 text-sm text-ink-2">
+          <strong className="text-ink">This is the official $CLASP.</strong> The dev’s 1-year founding lock earns fees like any
+          lock; the dev gives those fees away by buying back and burning CLASP. Any other “Clasp” coin is a copy.
+        </p>
+      )}
 
       <CoinBanners coin={coin} />
 

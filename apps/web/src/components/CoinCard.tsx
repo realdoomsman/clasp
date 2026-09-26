@@ -1,3 +1,4 @@
+import { officialCoin } from '@clasp/sdk';
 import Link from 'next/link';
 import type { CoinSummary } from '@/lib/api';
 import { formatEth, formatPercent, sharePct } from '@/lib/format';
@@ -16,6 +17,7 @@ export function CoinCard({ coin }: { coin: CoinSummary }) {
           <p className="truncate font-display text-lg font-semibold group-hover:text-accent-strong">{coin.name}</p>
           <p className="truncate text-sm text-ink-3">${coin.symbol}</p>
         </div>
+        {coin.token === officialCoin.token && <Badge tone="accent">Official</Badge>}
         {coin.graduated && <Badge tone="neutral">On Uniswap</Badge>}
       </div>
       <dl className="mt-5 grid grid-cols-3 gap-3 text-sm">

@@ -1,5 +1,6 @@
 'use client';
 
+import { officialCoin } from '@clasp/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { EmptyState, ErrorState, Segmented, Skeleton } from '@/components/ui';
@@ -101,6 +102,9 @@ function Lockers({ coin }: { coin: CoinDetail }) {
               <td className="px-4 py-3">
                 <Who address={l.owner} />
                 {l.positions > 1 && <span className="ml-1 text-xs text-ink-3">({l.positions} locks)</span>}
+                {coin.token === officialCoin.token && l.owner === officialCoin.devWallet && (
+                  <span className="ml-2 rounded-full bg-paper-2 px-2 py-0.5 text-xs font-semibold text-ink-2">Dev lock · fees given away</span>
+                )}
               </td>
               <td className="num px-4 py-3 text-right">{formatTokens(l.amount)}</td>
               <td className="num px-4 py-3 text-right font-semibold">{formatPercent(l.sharePct, 2)}</td>
