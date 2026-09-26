@@ -1,6 +1,6 @@
 'use client';
 
-import { addresses, claspLauncherAbi, DEFAULT_TERMS, durationBps, ponsFactoryAbi, ZERO_ADDRESS } from '@clasp/sdk';
+import { addresses, claspLauncherAbi, coinLinkUrl, DEFAULT_TERMS, durationBps, ponsFactoryAbi, ZERO_ADDRESS } from '@clasp/sdk';
 import Link from 'next/link';
 import { useId, useState, type ReactNode } from 'react';
 import { bytesToHex, parseEventLogs, type Address } from 'viem';
@@ -19,8 +19,8 @@ import { useTx } from '@/lib/tx';
 
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+// The Website field isn't offered: every coin launched here gets its Clasp page link (see coinLinkUrl).
 const SOCIALS = [
-  { key: 'website', label: 'Website', placeholder: 'https://yourcoin.xyz' },
   { key: 'twitter', label: 'X (Twitter)', placeholder: 'https://x.com/yourcoin' },
   { key: 'telegram', label: 'Telegram', placeholder: 'https://t.me/yourcoin' },
   { key: 'discord', label: 'Discord', placeholder: 'https://discord.gg/…' },
@@ -29,6 +29,9 @@ const SOCIALS = [
 type SocialKey = (typeof SOCIALS)[number]['key'];
 
 const randomSalt = () => bytesToHex(crypto.getRandomValues(new Uint8Array(32)));
+const LINK_ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789';
+/** 10 random base-36 characters (~52 bits): the id in the coin's clasp.fun/l/ link. */
+const randomLinkId = () => Array.from(crypto.getRandomValues(new Uint8Array(10)), (b) => LINK_ALPHABET[b % 36]).join('');
 
 function Field({ label, hint, children, htmlFor }: { label: string; hint?: ReactNode; children: ReactNode; htmlFor: string }) {
   return (
@@ -97,12 +100,13 @@ export function LaunchForm() {
   const [symbol, setSymbol] = useState('');
   const [logo, setLogo] = useState('');
   const [description, setDescription] = useState('');
-  const [socials, setSocials] = useState<Record<SocialKey, string>>({ website: '', twitter: '', telegram: '', discord: '', farcaster: '' });
+  const [socials, setSocials] = useState<Record<SocialKey, string>>({ twitter: '', telegram: '', discord: '', farcaster: '' });
   const [taxPct, setTaxPct] = useState('1');
   const [devBuyText, setDevBuyText] = useState('0.1');
   const [lockPct, setLockPct] = useState(50);
   const [lockSecs, setLockSecs] = useState(DEFAULT_TERMS.maxLockSecs);
   const [salt, setSalt] = useState(randomSalt);
+  const [linkId, setLinkId] = useState(randomLinkId);
   const [launched, setLaunched] = useState<{ token: Address; locked: bigint } | null>(null);
   const tx = useTx();
   const defaults = useFactoryDefaults();
@@ -159,7 +163,7 @@ export function LaunchForm() {
           symbol,
           logo,
           description: description.trim(),
-          socials,
+          socials: { ...socials, website: coinLinkUrl(linkId) },
           creatorTaxBps: taxBps,
           salt,
           expectedEconomics: economics.data,
@@ -183,6 +187,7 @@ export function LaunchForm() {
     const [event] = parseEventLogs({ abi: claspLauncherAbi, eventName: 'Launched', logs: receipt.logs });
     if (event) setLaunched({ token: event.args.token, locked: event.args.lockedAmount });
     setSalt(randomSalt());
+    setLinkId(randomLinkId());
   }
 
   if (launched) {
@@ -261,6 +266,10 @@ export function LaunchForm() {
             ))}
           </div>
           {errors.socials && <p className="mt-1.5 text-sm text-bad">{errors.socials}</p>}
+          <p className="hint mt-1.5">
+            Your coin’s website is set to its Clasp page (a clasp.fun/l/… link), so anyone who finds it on Pons or a chart
+            site lands where they can lock it.
+          </p>
         </fieldset>
 
         <Field

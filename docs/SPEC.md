@@ -37,6 +37,21 @@ dev lock" or "the dev earns nothing on-chain". Unlisted coins (the $CLTEST mainn
 test) are left out of `/api/coins`, `/api/stats` and every leaderboard; their
 pages stay reachable by address.
 
+## Coin links (the on-chain website)
+
+The launch form doesn't ask for a website: every coin launched from clasp.fun gets
+`https://clasp.fun/l/<id>` (`coinLinkUrl` in `@clasp/sdk`; `<id>` is 10 random
+`[a-z0-9]` picked by the form) as its Pons `socials.website`, so Pons pages and
+chart sites send people to the coin's Clasp page. The token's own address can't
+be used: Pons deploys the token with CREATE2 over creation code that includes the
+socials, so the address depends on the link. `GET /api/links/:id` returns the
+earliest coin (lowest `created_block`) whose indexed website is exactly that URL,
+so a copy launched later with the same link can't take it over; `/l/<id>`
+redirects (308) to `/coins/<token>`, or waits and retries while the coin is
+still being indexed. The launcher itself doesn't enforce the link; coins
+launched by calling it directly keep whatever website they passed. Coins
+launched before this (including $CLASP) keep their original website.
+
 ## Where the money comes from
 
 Every Clasp coin has one **vault** contract. ETH arrives in it from two places:

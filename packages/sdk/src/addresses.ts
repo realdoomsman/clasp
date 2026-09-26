@@ -42,6 +42,17 @@ export const officialCoin = {
  */
 export const unlistedTokens: readonly `0x${string}`[] = ['0x1fFBca055F0f0d1c5F81b456540DF1f395D9E173'];
 
+/**
+ * A coin launched from clasp.fun gets `https://clasp.fun/l/<id>` as its on-chain
+ * website, and that link opens the coin's Clasp page. The token's own address
+ * can't be used: Pons deploys the token with CREATE2 over creation code that
+ * includes the website, so the address depends on the link. The id is random,
+ * picked by the launch form; the earliest coin carrying the exact link owns it.
+ */
+export const COIN_LINK_BASE = 'https://clasp.fun/l/';
+export const COIN_LINK_ID = /^[a-z0-9]{10}$/;
+export const coinLinkUrl = (id: string) => `${COIN_LINK_BASE}${id}`;
+
 export type ClaspAddresses = typeof addresses;
 
 export const robinhoodChain = defineChain({

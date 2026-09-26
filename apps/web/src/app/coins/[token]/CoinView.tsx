@@ -1,6 +1,6 @@
 'use client';
 
-import { claspVaultAbi, officialCoin } from '@clasp/sdk';
+import { claspVaultAbi, COIN_LINK_BASE, officialCoin } from '@clasp/sdk';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import type { Address } from 'viem';
@@ -19,7 +19,8 @@ import { TradePanel } from './TradePanel';
 
 function Socials({ coin }: { coin: CoinDetail }) {
   const links = [
-    ['Website', coin.website],
+    // A coin launched here has this very page as its website; no need to link to it.
+    ['Website', coin.website?.startsWith(COIN_LINK_BASE) ? null : coin.website],
     ['X', coin.twitter],
     ['Telegram', coin.telegram],
     ['Discord', coin.discord],

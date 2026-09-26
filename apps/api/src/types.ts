@@ -67,6 +67,11 @@ export interface CoinsResponse {
   coins: CoinSummary[];
 }
 
+/** GET /api/links/:id. The coin whose on-chain website is `https://clasp.fun/l/<id>`. */
+export interface CoinLinkResponse {
+  token: Address;
+}
+
 export interface VaultState {
   /** Native balance of the vault contract, in wei. */
   balance: string;

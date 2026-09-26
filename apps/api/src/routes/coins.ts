@@ -1,4 +1,4 @@
-import { unlistedTokens } from "@clasp/sdk";
+import { COIN_LINK_ID, coinLinkUrl, unlistedTokens } from "@clasp/sdk";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { getAddress, isAddress, type Address, type Hash } from "viem";
 import { z } from "zod";
@@ -7,6 +7,7 @@ import type {
   ActivityKind,
   ActivityResponse,
   CoinDetail,
+  CoinLinkResponse,
   CoinsResponse,
   LeaderboardResponse,
   LockersResponse,
@@ -91,6 +92,20 @@ export async function coinRoutes(app: FastifyInstance) {
     `;
     shortCache(reply);
     return { coins: rows.map(toSummary) };
+  });
+
+  // Earliest coin carrying the exact link wins, so a copy launched later with
+  // the same website can't take the link over.
+  app.get("/links/:id", async (request, reply): Promise<CoinLinkResponse | void> => {
+    const { id } = z.object({ id: z.string().regex(COIN_LINK_ID) }).parse(request.params);
+    const [coin] = await sql<{ token: Address }[]>`
+      SELECT token FROM coins WHERE website = ${coinLinkUrl(id)}
+      ORDER BY created_block, token
+      LIMIT 1
+    `;
+    if (!coin) return reply.code(404).send({ error: "link not found" });
+    shortCache(reply);
+    return { token: coin.token };
   });
 
   app.get("/coins/:token", async (request, reply): Promise<CoinDetail | void> => {
