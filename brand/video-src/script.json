@@ -1,0 +1,1160 @@
+{
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "+8%",
+  "videos": {
+    "launch": {
+      "tail": 0.0,
+      "scenes": [
+        {
+          "id": "cold",
+          "lead": 0.5,
+          "tail": 0.5,
+          "lines": [
+            {
+              "say": "Every meme coin trade pays a fee.",
+              "cap": "Every memecoin trade pays a fee."
+            },
+            {
+              "say": "Usually, one wallet keeps it all. Holders get nothing.",
+              "cap": "Usually, one wallet keeps it all. Holders get nothing.",
+              "gap": 0.35
+            }
+          ],
+          "beats": {
+            "headline": [
+              0,
+              0,
+              -0.6
+            ],
+            "tape": [
+              0,
+              "trade",
+              -6
+            ],
+            "fee": [
+              0,
+              "fee"
+            ],
+            "wallet": [
+              1,
+              "one"
+            ],
+            "holders": [
+              1,
+              "Holders"
+            ]
+          },
+          "sfx": [
+            [
+              "fee",
+              "tick",
+              2
+            ],
+            [
+              "wallet",
+              "pop",
+              3
+            ],
+            [
+              "holders",
+              "low",
+              2
+            ]
+          ]
+        },
+        {
+          "id": "reveal",
+          "lead": 1.0,
+          "tail": 0.6,
+          "lines": [
+            {
+              "say": "Clasp changes that.",
+              "cap": "Clasp changes that."
+            },
+            {
+              "say": "Lock a coin you believe in. Earn a share of every trade.",
+              "cap": "Lock a coin you believe in. Earn a share of every trade.",
+              "gap": 0.45
+            }
+          ],
+          "beats": {
+            "mark": [
+              0,
+              0,
+              -0.9
+            ],
+            "word": [
+              0,
+              0,
+              -0.1
+            ],
+            "tag1": [
+              1,
+              "Lock"
+            ],
+            "tag2": [
+              1,
+              "Earn"
+            ]
+          },
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "mark",
+              "swell",
+              22
+            ],
+            [
+              "word",
+              "pop",
+              3
+            ],
+            [
+              "tag2",
+              "tick",
+              2
+            ]
+          ]
+        },
+        {
+          "id": "how",
+          "lead": 0.4,
+          "tail": 0.5,
+          "lines": [
+            {
+              "say": "Every Clasp coin has its own vault.",
+              "cap": "Every Clasp coin has its own vault."
+            },
+            {
+              "say": "It takes two percent of every trade on Clasp, plus the coin's creator fees from Pons.",
+              "cap": "It takes 2% of every trade on Clasp, plus the coin's creator fees from Pons.",
+              "gap": 0.3
+            },
+            {
+              "say": "Lockers get ninety percent. Clasp gets ten. The creator gets nothing.",
+              "cap": "Lockers get 90%. Clasp gets 10%. The creator gets nothing.",
+              "gap": 0.35
+            }
+          ],
+          "beats": {
+            "vault": [
+              0,
+              0,
+              0.05
+            ],
+            "srcA": [
+              1,
+              "2"
+            ],
+            "srcB": [
+              1,
+              "creator"
+            ],
+            "out90": [
+              2,
+              "Lockers"
+            ],
+            "out10": [
+              2,
+              "gets",
+              -0.25
+            ],
+            "out0": [
+              2,
+              "creator"
+            ]
+          },
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "vault",
+              "pop",
+              3
+            ],
+            [
+              "srcA",
+              "tick",
+              2
+            ],
+            [
+              "srcB",
+              "tick",
+              2
+            ],
+            [
+              "out90",
+              "pop",
+              3
+            ],
+            [
+              "out10",
+              "tick",
+              2
+            ],
+            [
+              "out0",
+              "tick",
+              2
+            ]
+          ]
+        },
+        {
+          "id": "lock",
+          "lead": 0.4,
+          "tail": 0.5,
+          "lines": [
+            {
+              "say": "Lock for four hours, up to a year.",
+              "cap": "Lock for 4 hours, up to a year."
+            },
+            {
+              "say": "Longer locks count up to four times more, and big locks get a size bonus.",
+              "cap": "Longer locks count up to 4× more, and big locks get a size bonus.",
+              "gap": 0.3
+            },
+            {
+              "say": "Collect your ETH anytime.",
+              "cap": "Collect your ETH anytime.",
+              "gap": 0.3
+            },
+            {
+              "say": "Leaving early burns part of your coins, from twenty-five percent down to five.",
+              "cap": "Leaving early burns part of your coins, from 25% down to 5%.",
+              "gap": 0.4
+            }
+          ],
+          "beats": {
+            "p1": [
+              0,
+              0,
+              -0.2
+            ],
+            "sweep": [
+              0,
+              "4"
+            ],
+            "sweepEnd": [
+              1,
+              "times",
+              0.2
+            ],
+            "size": [
+              1,
+              "size",
+              -0.2
+            ],
+            "p3": [
+              2,
+              "Collect",
+              -0.15
+            ],
+            "collect": [
+              2,
+              "anytime",
+              0.1
+            ],
+            "p4": [
+              3,
+              0,
+              -0.15
+            ],
+            "burnGo": [
+              3,
+              "25"
+            ],
+            "burnEnd": [
+              3,
+              "5"
+            ]
+          },
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "sweepEnd",
+              "pop",
+              3
+            ],
+            [
+              "size",
+              "tick",
+              2
+            ],
+            [
+              "p3",
+              "whoosh",
+              -3
+            ],
+            [
+              "collect",
+              "click",
+              1
+            ],
+            [
+              "p4",
+              "whoosh",
+              -3
+            ]
+          ]
+        },
+        {
+          "id": "ui",
+          "lead": 0.5,
+          "tail": 0.5,
+          "lines": [
+            {
+              "say": "It all runs on clasp dot fun.",
+              "cap": "It all runs on clasp.fun."
+            },
+            {
+              "say": "Open a coin, pick an amount and a lock length.",
+              "cap": "Open a coin, pick an amount and a lock length.",
+              "gap": 0.6
+            },
+            {
+              "say": "Trade on the same page.",
+              "cap": "Trade on the same page.",
+              "gap": 0.9
+            },
+            {
+              "say": "Sign in with a wallet, or with Google, which is custodial.",
+              "cap": "Sign in with a wallet, or with Google, which is custodial.",
+              "gap": 0.8
+            },
+            {
+              "say": "Or launch a coin with its vault built in.",
+              "cap": "Or launch a coin with its vault built in.",
+              "gap": 0.8
+            }
+          ],
+          "beats": {
+            "home": [
+              0,
+              0,
+              -0.35
+            ],
+            "coin": [
+              1,
+              "Open",
+              -0.2
+            ],
+            "toLock": [
+              1,
+              "pick",
+              -0.35
+            ],
+            "c1w": [
+              1,
+              "amount",
+              0.05
+            ],
+            "c1y": [
+              1,
+              "length",
+              0.15
+            ],
+            "trade": [
+              2,
+              0,
+              -0.3
+            ],
+            "signin": [
+              3,
+              0,
+              -0.3
+            ],
+            "wallet": [
+              3,
+              "wallet",
+              -0.1
+            ],
+            "google": [
+              3,
+              "Google",
+              -0.1
+            ],
+            "custodial": [
+              3,
+              "custodial",
+              -0.1
+            ],
+            "launch": [
+              4,
+              0,
+              -0.3
+            ],
+            "scroll": [
+              4,
+              "vault",
+              -0.35
+            ]
+          },
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "coin",
+              "whoosh",
+              -3
+            ],
+            [
+              "c1w",
+              "click",
+              1
+            ],
+            [
+              "c1y",
+              "click",
+              1
+            ],
+            [
+              "signin",
+              "whoosh",
+              -3
+            ],
+            [
+              "launch",
+              "whoosh",
+              -3
+            ]
+          ]
+        },
+        {
+          "id": "proof",
+          "lead": 0.4,
+          "tail": 0.5,
+          "lines": [
+            {
+              "say": "It's live on Robinhood Chain. The contracts are immutable and verified.",
+              "cap": "It's live on Robinhood Chain. The contracts are immutable and verified."
+            },
+            {
+              "say": "Our test coin's vault took in zero point zero eight seven nine ETH in its first hours, mostly bot launch tax.",
+              "cap": "Our test coin's vault took in 0.0879 ETH in its first hours, mostly bot launch tax.",
+              "gap": 0.4
+            },
+            {
+              "say": "Our keeper bot harvested it and sent the treasury share on its own.",
+              "cap": "Our keeper bot harvested it and sent the treasury share on its own.",
+              "gap": 0.3
+            }
+          ],
+          "beats": {
+            "live": [
+              0,
+              "live",
+              -0.1
+            ],
+            "cards": [
+              0,
+              "contracts",
+              -0.2
+            ],
+            "test": [
+              1,
+              0,
+              -0.3
+            ],
+            "count": [
+              1,
+              "0"
+            ],
+            "countEnd": [
+              1,
+              "ETH"
+            ],
+            "bots": [
+              1,
+              "mostly"
+            ],
+            "keeper": [
+              2,
+              "keeper"
+            ],
+            "harvest": [
+              2,
+              "harvested"
+            ],
+            "treasury": [
+              2,
+              "treasury"
+            ]
+          },
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "cards",
+              "tick",
+              2
+            ],
+            [
+              "test",
+              "whoosh",
+              -3
+            ],
+            [
+              "countEnd",
+              "pop",
+              3
+            ],
+            [
+              "harvest",
+              "tick",
+              2
+            ],
+            [
+              "treasury",
+              "tick",
+              2
+            ]
+          ]
+        },
+        {
+          "id": "honest",
+          "lead": 0.4,
+          "tail": 0.6,
+          "lines": [
+            {
+              "say": "It's not audited yet, and meme coins can go to zero.",
+              "cap": "It's not audited yet, and memecoins can go to zero."
+            }
+          ],
+          "min": 4.6,
+          "beats": {
+            "title": [
+              0,
+              0,
+              -0.2
+            ],
+            "items": [
+              0,
+              "meme",
+              -0.1
+            ]
+          },
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "title",
+              "low",
+              2
+            ]
+          ]
+        },
+        {
+          "id": "end",
+          "lead": 0.5,
+          "tail": 2.9,
+          "lines": [
+            {
+              "say": "Clasp dot fun.",
+              "cap": "clasp.fun"
+            }
+          ],
+          "beats": {
+            "card": [
+              0,
+              0,
+              -0.4
+            ]
+          },
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "card",
+              "swell",
+              6
+            ]
+          ]
+        }
+      ]
+    },
+    "clip-money-flow": {
+      "scenes": [
+        {
+          "id": "flow",
+          "lead": 0.6,
+          "tail": 1.0,
+          "lines": [
+            {
+              "say": "Where does the ETH come from?",
+              "cap": "Where does the ETH come from?"
+            },
+            {
+              "say": "Every buy or sell through Clasp pays a two percent fee into the coin's vault.",
+              "cap": "Every buy or sell through Clasp pays a 2% fee into the coin's vault.",
+              "gap": 0.45
+            },
+            {
+              "say": "The coin's creator fees from Pons land there too.",
+              "cap": "The coin's creator fees from Pons land there too.",
+              "gap": 0.4
+            },
+            {
+              "say": "Ninety percent streams to lockers over one hour.",
+              "cap": "90% streams to lockers over 1 hour.",
+              "gap": 0.5
+            },
+            {
+              "say": "Ten percent goes to Clasp. The creator takes zero.",
+              "cap": "10% goes to Clasp. The creator takes 0%.",
+              "gap": 0.3
+            }
+          ],
+          "beats": {
+            "title": [
+              0,
+              0,
+              -0.6
+            ],
+            "vault": [
+              1,
+              "through",
+              -0.1
+            ],
+            "srcA": [
+              1,
+              "2"
+            ],
+            "srcB": [
+              2,
+              "creator"
+            ],
+            "out90": [
+              3,
+              0
+            ],
+            "stream": [
+              3,
+              "streams"
+            ],
+            "out10": [
+              4,
+              0
+            ],
+            "out0": [
+              4,
+              "creator"
+            ]
+          },
+          "sfx": [
+            [
+              "title",
+              "pop",
+              3
+            ],
+            [
+              "vault",
+              "pop",
+              3
+            ],
+            [
+              "srcA",
+              "tick",
+              2
+            ],
+            [
+              "srcB",
+              "tick",
+              2
+            ],
+            [
+              "out90",
+              "pop",
+              3
+            ],
+            [
+              "out10",
+              "tick",
+              2
+            ],
+            [
+              "out0",
+              "tick",
+              2
+            ]
+          ]
+        },
+        {
+          "id": "end",
+          "lead": 0.3,
+          "tail": 2.6,
+          "lines": [],
+          "beats": {},
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "start",
+              "swell",
+              6
+            ]
+          ]
+        }
+      ]
+    },
+    "clip-lock-weight": {
+      "scenes": [
+        {
+          "id": "weight",
+          "lead": 0.6,
+          "tail": 0.8,
+          "lines": [
+            {
+              "say": "Your share of the fees depends on your weight.",
+              "cap": "Your share of the fees depends on your weight."
+            },
+            {
+              "say": "Weight is the amount you lock, times a time boost, times a size boost.",
+              "cap": "Weight is the amount you lock, times a time boost, times a size boost.",
+              "gap": 0.35
+            },
+            {
+              "say": "Time goes from one times at four hours, to four times at a year.",
+              "cap": "Time goes from 1× at 4 hours, to 4× at a year.",
+              "gap": 0.35
+            },
+            {
+              "say": "Locking a big slice of the supply adds up to fifty percent.",
+              "cap": "Locking a big slice of the supply adds up to +50%.",
+              "gap": 0.45
+            },
+            {
+              "say": "Two lockers, same amount: the one-year lock gets about seventy-four percent of each payout.",
+              "cap": "Two lockers, same amount: the 1-year lock gets about 74% of each payout.",
+              "gap": 0.45
+            }
+          ],
+          "beats": {
+            "title": [
+              0,
+              0,
+              -0.6
+            ],
+            "formula": [
+              1,
+              0,
+              -0.1
+            ],
+            "fTime": [
+              1,
+              "time"
+            ],
+            "fSize": [
+              1,
+              "size"
+            ],
+            "curve": [
+              2,
+              0,
+              -0.3
+            ],
+            "sweep": [
+              2,
+              "one"
+            ],
+            "sweepEnd": [
+              2,
+              "year"
+            ],
+            "size": [
+              3,
+              "big",
+              -0.1
+            ],
+            "example": [
+              4,
+              0,
+              -0.3
+            ],
+            "share": [
+              4,
+              "about"
+            ]
+          },
+          "sfx": [
+            [
+              "title",
+              "pop",
+              3
+            ],
+            [
+              "formula",
+              "whoosh",
+              -3
+            ],
+            [
+              "fTime",
+              "tick",
+              2
+            ],
+            [
+              "fSize",
+              "tick",
+              2
+            ],
+            [
+              "curve",
+              "whoosh",
+              -3
+            ],
+            [
+              "sweepEnd",
+              "pop",
+              3
+            ],
+            [
+              "size",
+              "whoosh",
+              -3
+            ],
+            [
+              "example",
+              "whoosh",
+              -3
+            ],
+            [
+              "share",
+              "pop",
+              3
+            ]
+          ]
+        },
+        {
+          "id": "end",
+          "lead": 0.3,
+          "tail": 2.6,
+          "lines": [],
+          "beats": {},
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "start",
+              "swell",
+              6
+            ]
+          ]
+        }
+      ]
+    },
+    "clip-early-exit": {
+      "scenes": [
+        {
+          "id": "exit",
+          "lead": 0.6,
+          "tail": 1.0,
+          "lines": [
+            {
+              "say": "You can leave a lock early. It costs part of your coins.",
+              "cap": "You can leave a lock early. It costs part of your coins."
+            },
+            {
+              "say": "The burn starts at twenty-five percent and shrinks as the lock runs, but never below five.",
+              "cap": "The burn starts at 25% and shrinks as the lock runs, but never below 5%.",
+              "gap": 0.45
+            },
+            {
+              "say": "Burned coins are gone for good.",
+              "cap": "Burned coins are gone for good.",
+              "gap": 0.5
+            },
+            {
+              "say": "ETH you haven't collected goes back to the other lockers.",
+              "cap": "ETH you haven't collected goes back to the other lockers.",
+              "gap": 0.45
+            },
+            {
+              "say": "ETH you already collected stays yours.",
+              "cap": "ETH you already collected stays yours.",
+              "gap": 0.25
+            }
+          ],
+          "beats": {
+            "title": [
+              0,
+              0,
+              -0.6
+            ],
+            "chart": [
+              1,
+              0,
+              -0.3
+            ],
+            "play": [
+              1,
+              "25"
+            ],
+            "playEnd": [
+              1,
+              "5",
+              0.3
+            ],
+            "dead": [
+              2,
+              0,
+              -0.2
+            ],
+            "eth": [
+              3,
+              0,
+              -0.3
+            ],
+            "ethKeep": [
+              4,
+              0,
+              -0.1
+            ]
+          },
+          "sfx": [
+            [
+              "title",
+              "pop",
+              3
+            ],
+            [
+              "chart",
+              "whoosh",
+              -3
+            ],
+            [
+              "playEnd",
+              "tick",
+              2
+            ],
+            [
+              "dead",
+              "low",
+              2
+            ],
+            [
+              "eth",
+              "whoosh",
+              -3
+            ],
+            [
+              "ethKeep",
+              "pop",
+              3
+            ]
+          ]
+        },
+        {
+          "id": "end",
+          "lead": 0.3,
+          "tail": 2.6,
+          "lines": [],
+          "beats": {},
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "start",
+              "swell",
+              6
+            ]
+          ]
+        }
+      ]
+    },
+    "clip-walkthrough": {
+      "scenes": [
+        {
+          "id": "walk",
+          "lead": 0.6,
+          "tail": 0.9,
+          "lines": [
+            {
+              "say": "Here's a lock on clasp dot fun, start to finish.",
+              "cap": "Here's a lock on clasp.fun, start to finish."
+            },
+            {
+              "say": "Open a coin to see its price, its lockers, and what it has paid out.",
+              "cap": "Open a coin to see its price, its lockers, and what it has paid out.",
+              "gap": 0.7
+            },
+            {
+              "say": "Enter an amount and pick a lock length.",
+              "cap": "Enter an amount and pick a lock length.",
+              "gap": 0.7
+            },
+            {
+              "say": "One year gets the full four times boost.",
+              "cap": "One year gets the full 4× boost.",
+              "gap": 0.35
+            },
+            {
+              "say": "Trades on this page pay two percent into the coin's vault.",
+              "cap": "Trades on this page pay 2% into the coin's vault.",
+              "gap": 0.9
+            },
+            {
+              "say": "Then sign in with your own wallet, or with Google, which is custodial.",
+              "cap": "Then sign in with your own wallet, or with Google, which is custodial.",
+              "gap": 0.9
+            }
+          ],
+          "beats": {
+            "home": [
+              0,
+              0,
+              -0.3
+            ],
+            "coin": [
+              1,
+              0,
+              -0.3
+            ],
+            "stats": [
+              1,
+              "price"
+            ],
+            "paid": [
+              1,
+              "paid"
+            ],
+            "toLock": [
+              2,
+              0,
+              -0.35
+            ],
+            "type": [
+              2,
+              "amount",
+              -0.2
+            ],
+            "c1w": [
+              2,
+              "pick",
+              0.1
+            ],
+            "c1y": [
+              3,
+              0,
+              0.1
+            ],
+            "boost": [
+              3,
+              "four"
+            ],
+            "trade": [
+              4,
+              0,
+              -0.4
+            ],
+            "fee": [
+              4,
+              "2"
+            ],
+            "signin": [
+              5,
+              0,
+              -0.4
+            ],
+            "wallet": [
+              5,
+              "wallet",
+              -0.1
+            ],
+            "google": [
+              5,
+              "Google",
+              -0.1
+            ],
+            "custodial": [
+              5,
+              "which",
+              -0.1
+            ]
+          },
+          "sfx": [
+            [
+              "home",
+              "whoosh",
+              -3
+            ],
+            [
+              "coin",
+              "whoosh",
+              -3
+            ],
+            [
+              "c1w",
+              "click",
+              1
+            ],
+            [
+              "c1y",
+              "click",
+              1
+            ],
+            [
+              "trade",
+              "whoosh",
+              -3
+            ],
+            [
+              "signin",
+              "whoosh",
+              -3
+            ]
+          ]
+        },
+        {
+          "id": "end",
+          "lead": 0.3,
+          "tail": 2.6,
+          "lines": [],
+          "beats": {},
+          "sfx": [
+            [
+              "start",
+              "whoosh",
+              -3
+            ],
+            [
+              "start",
+              "swell",
+              6
+            ]
+          ]
+        }
+      ]
+    }
+  }
+}

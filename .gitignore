@@ -12,3 +12,8 @@ cache
 **/broadcast/*/31337/
 *.tsbuildinfo
 .secrets/
+
+# Media production scratch
+brand/**/work/
+brand/**/node_modules/
+brand/**/out/

@@ -1,0 +1,3215 @@
+{
+ "launch": {
+  "fps": 30,
+  "durationInFrames": 2328,
+  "scenes": [
+   {
+    "id": "cold",
+    "from": 0,
+    "dur": 187,
+    "beats": {
+     "headline": -3,
+     "tape": -142,
+     "fee": 66,
+     "wallet": 95,
+     "holders": 146
+    },
+    "sfx": [
+     [
+      "fee",
+      "tick",
+      2
+     ],
+     [
+      "wallet",
+      "pop",
+      3
+     ],
+     [
+      "holders",
+      "low",
+      2
+     ]
+    ],
+    "lines": [
+     {
+      "from": 15,
+      "dur": 62,
+      "cap": "Every memecoin trade pays a fee.",
+      "say": "Every meme coin trade pays a fee.",
+      "key": "83c2883e591f29e6",
+      "startSec": 0.5,
+      "durSec": 2.05,
+      "words": [
+       [
+        0.0,
+        0.22,
+        "Every"
+       ],
+       [
+        0.22,
+        0.42,
+        "meme"
+       ],
+       [
+        0.42,
+        0.78,
+        "coin"
+       ],
+       [
+        0.78,
+        1.24,
+        "trade"
+       ],
+       [
+        1.24,
+        1.52,
+        "pays"
+       ],
+       [
+        1.52,
+        1.7,
+        "a"
+       ],
+       [
+        1.7,
+        1.88,
+        "fee."
+       ]
+      ]
+     },
+     {
+      "from": 87,
+      "dur": 85,
+      "cap": "Usually, one wallet keeps it all. Holders get nothing.",
+      "say": "Usually, one wallet keeps it all. Holders get nothing.",
+      "key": "e5bf8ce2c306168a",
+      "startSec": 2.9,
+      "durSec": 2.83,
+      "words": [
+       [
+        0.0,
+        0.28,
+        "Usually"
+       ],
+       [
+        0.28,
+        0.54,
+        "one"
+       ],
+       [
+        0.54,
+        0.86,
+        "wallet"
+       ],
+       [
+        0.86,
+        1.1,
+        "keeps"
+       ],
+       [
+        1.1,
+        1.26,
+        "it"
+       ],
+       [
+        1.26,
+        1.52,
+        "all."
+       ],
+       [
+        1.96,
+        2.2,
+        "Holders"
+       ],
+       [
+        2.2,
+        2.34,
+        "get"
+       ],
+       [
+        2.34,
+        2.6,
+        "nothing."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "reveal",
+    "from": 187,
+    "dur": 184,
+    "beats": {
+     "mark": 3,
+     "word": 27,
+     "tag1": 72,
+     "tag2": 116
+    },
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "mark",
+      "swell",
+      22
+     ],
+     [
+      "word",
+      "pop",
+      3
+     ],
+     [
+      "tag2",
+      "tick",
+      2
+     ]
+    ],
+    "lines": [
+     {
+      "from": 30,
+      "dur": 29,
+      "cap": "Clasp changes that.",
+      "say": "Clasp changes that.",
+      "key": "668d2f9617dce02f",
+      "startSec": 7.233333333333333,
+      "durSec": 0.95,
+      "words": [
+       [
+        0.0,
+        0.2,
+        "Class"
+       ],
+       [
+        0.2,
+        0.52,
+        "changes"
+       ],
+       [
+        0.52,
+        0.82,
+        "that."
+       ]
+      ]
+     },
+     {
+      "from": 72,
+      "dur": 94,
+      "cap": "Lock a coin you believe in. Earn a share of every trade.",
+      "say": "Lock a coin you believe in. Earn a share of every trade.",
+      "key": "3e8e521dadc1e8b4",
+      "startSec": 8.633333333333333,
+      "durSec": 3.13,
+      "words": [
+       [
+        0.0,
+        0.16,
+        "Lock"
+       ],
+       [
+        0.16,
+        0.3,
+        "a"
+       ],
+       [
+        0.3,
+        0.48,
+        "coin"
+       ],
+       [
+        0.48,
+        0.6,
+        "you"
+       ],
+       [
+        0.6,
+        0.82,
+        "believe"
+       ],
+       [
+        0.82,
+        1.18,
+        "in."
+       ],
+       [
+        1.46,
+        1.56,
+        "Earn"
+       ],
+       [
+        1.56,
+        1.72,
+        "a"
+       ],
+       [
+        1.72,
+        1.86,
+        "share"
+       ],
+       [
+        1.86,
+        2.24,
+        "of"
+       ],
+       [
+        2.24,
+        2.62,
+        "every"
+       ],
+       [
+        2.62,
+        2.96,
+        "trade."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "how",
+    "from": 371,
+    "dur": 372,
+    "beats": {
+     "vault": 14,
+     "srcA": 87,
+     "srcB": 180,
+     "out90": 232,
+     "out10": 290,
+     "out0": 328
+    },
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "vault",
+      "pop",
+      3
+     ],
+     [
+      "srcA",
+      "tick",
+      2
+     ],
+     [
+      "srcB",
+      "tick",
+      2
+     ],
+     [
+      "out90",
+      "pop",
+      3
+     ],
+     [
+      "out10",
+      "tick",
+      2
+     ],
+     [
+      "out0",
+      "tick",
+      2
+     ]
+    ],
+    "lines": [
+     {
+      "from": 12,
+      "dur": 58,
+      "cap": "Every Clasp coin has its own vault.",
+      "say": "Every Clasp coin has its own vault.",
+      "key": "2bbc9fe2606d20b9",
+      "startSec": 12.766666666666667,
+      "durSec": 1.92,
+      "words": [
+       [
+        0.0,
+        0.24,
+        "Every"
+       ],
+       [
+        0.24,
+        0.54,
+        "class"
+       ],
+       [
+        0.54,
+        0.98,
+        "coin"
+       ],
+       [
+        0.98,
+        1.34,
+        "has"
+       ],
+       [
+        1.34,
+        1.46,
+        "its"
+       ],
+       [
+        1.46,
+        1.6,
+        "own"
+       ],
+       [
+        1.6,
+        1.8,
+        "vault."
+       ]
+      ]
+     },
+     {
+      "from": 79,
+      "dur": 143,
+      "cap": "It takes 2% of every trade on Clasp, plus the coin's creator fees from Pons.",
+      "say": "It takes two percent of every trade on Clasp, plus the coin's creator fees from Pons.",
+      "key": "9e698fb03038c9ed",
+      "startSec": 15.0,
+      "durSec": 4.76,
+      "words": [
+       [
+        0.0,
+        0.12,
+        "It"
+       ],
+       [
+        0.12,
+        0.28,
+        "takes"
+       ],
+       [
+        0.28,
+        0.48,
+        "2"
+       ],
+       [
+        0.48,
+        0.8,
+        "%"
+       ],
+       [
+        0.8,
+        1.1,
+        "of"
+       ],
+       [
+        1.1,
+        1.44,
+        "every"
+       ],
+       [
+        1.44,
+        1.7,
+        "trade"
+       ],
+       [
+        1.7,
+        1.88,
+        "on"
+       ],
+       [
+        1.88,
+        2.36,
+        "Clasp,"
+       ],
+       [
+        2.66,
+        2.8,
+        "plus"
+       ],
+       [
+        2.8,
+        3.04,
+        "the"
+       ],
+       [
+        3.04,
+        3.36,
+        "coin's"
+       ],
+       [
+        3.36,
+        3.6,
+        "creator"
+       ],
+       [
+        3.6,
+        3.92,
+        "fees"
+       ],
+       [
+        3.92,
+        4.2,
+        "from"
+       ],
+       [
+        4.2,
+        4.48,
+        "Pons."
+       ]
+      ]
+     },
+     {
+      "from": 232,
+      "dur": 126,
+      "cap": "Lockers get 90%. Clasp gets 10%. The creator gets nothing.",
+      "say": "Lockers get ninety percent. Clasp gets ten. The creator gets nothing.",
+      "key": "464be44524d666ea",
+      "startSec": 20.1,
+      "durSec": 4.17,
+      "words": [
+       [
+        0.0,
+        0.42,
+        "Lockers"
+       ],
+       [
+        0.42,
+        0.6,
+        "get"
+       ],
+       [
+        0.6,
+        1.78,
+        "90%."
+       ],
+       [
+        1.78,
+        2.2,
+        "Class"
+       ],
+       [
+        2.2,
+        2.42,
+        "gets"
+       ],
+       [
+        2.42,
+        2.66,
+        "10."
+       ],
+       [
+        3.08,
+        3.2,
+        "The"
+       ],
+       [
+        3.2,
+        3.4,
+        "creator"
+       ],
+       [
+        3.4,
+        3.64,
+        "gets"
+       ],
+       [
+        3.64,
+        3.9,
+        "nothing."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "lock",
+    "from": 743,
+    "dur": 412,
+    "beats": {
+     "p1": 6,
+     "sweep": 22,
+     "sweepEnd": 123,
+     "size": 171,
+     "p3": 209,
+     "collect": 238,
+     "p4": 268,
+     "burnGo": 346,
+     "burnEnd": 385
+    },
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "sweepEnd",
+      "pop",
+      3
+     ],
+     [
+      "size",
+      "tick",
+      2
+     ],
+     [
+      "p3",
+      "whoosh",
+      -3
+     ],
+     [
+      "collect",
+      "click",
+      1
+     ],
+     [
+      "p4",
+      "whoosh",
+      -3
+     ]
+    ],
+    "lines": [
+     {
+      "from": 12,
+      "dur": 59,
+      "cap": "Lock for 4 hours, up to a year.",
+      "say": "Lock for four hours, up to a year.",
+      "key": "434ec1120b8e2c0b",
+      "startSec": 25.166666666666668,
+      "durSec": 1.95,
+      "words": [
+       [
+        0.0,
+        0.18,
+        "Lock"
+       ],
+       [
+        0.18,
+        0.34,
+        "for"
+       ],
+       [
+        0.34,
+        0.62,
+        "4"
+       ],
+       [
+        0.62,
+        0.96,
+        "hours,"
+       ],
+       [
+        1.2,
+        1.38,
+        "up"
+       ],
+       [
+        1.38,
+        1.52,
+        "to"
+       ],
+       [
+        1.52,
+        1.62,
+        "a"
+       ],
+       [
+        1.62,
+        1.76,
+        "year."
+       ]
+      ]
+     },
+     {
+      "from": 79,
+      "dur": 126,
+      "cap": "Longer locks count up to 4× more, and big locks get a size bonus.",
+      "say": "Longer locks count up to four times more, and big locks get a size bonus.",
+      "key": "b943f7acc49a1642",
+      "startSec": 27.4,
+      "durSec": 4.17,
+      "words": [
+       [
+        0.0,
+        0.3,
+        "Longer"
+       ],
+       [
+        0.3,
+        0.5,
+        "locks"
+       ],
+       [
+        0.5,
+        0.72,
+        "count"
+       ],
+       [
+        0.72,
+        0.88,
+        "up"
+       ],
+       [
+        0.88,
+        1.04,
+        "to"
+       ],
+       [
+        1.04,
+        1.26,
+        "four"
+       ],
+       [
+        1.26,
+        1.54,
+        "times"
+       ],
+       [
+        1.54,
+        1.96,
+        "more,"
+       ],
+       [
+        2.24,
+        2.48,
+        "and"
+       ],
+       [
+        2.48,
+        2.78,
+        "big"
+       ],
+       [
+        2.78,
+        3.08,
+        "locks"
+       ],
+       [
+        3.08,
+        3.26,
+        "get"
+       ],
+       [
+        3.26,
+        3.52,
+        "size"
+       ],
+       [
+        3.52,
+        3.8,
+        "bonus."
+       ]
+      ]
+     },
+     {
+      "from": 213,
+      "dur": 47,
+      "cap": "Collect your ETH anytime.",
+      "say": "Collect your ETH anytime.",
+      "key": "61d0b2abf885ae9c",
+      "startSec": 31.866666666666667,
+      "durSec": 1.56,
+      "words": [
+       [
+        0.0,
+        0.22,
+        "Collect"
+       ],
+       [
+        0.22,
+        0.36,
+        "your"
+       ],
+       [
+        0.36,
+        0.72,
+        "ETH"
+       ],
+       [
+        0.72,
+        1.24,
+        "anytime."
+       ]
+      ]
+     },
+     {
+      "from": 272,
+      "dur": 125,
+      "cap": "Leaving early burns part of your coins, from 25% down to 5%.",
+      "say": "Leaving early burns part of your coins, from twenty-five percent down to five.",
+      "key": "fb9c125b976c6434",
+      "startSec": 33.833333333333336,
+      "durSec": 4.16,
+      "words": [
+       [
+        0.0,
+        0.3,
+        "leaving"
+       ],
+       [
+        0.3,
+        0.7,
+        "early"
+       ],
+       [
+        0.7,
+        1.12,
+        "burns"
+       ],
+       [
+        1.12,
+        1.4,
+        "part"
+       ],
+       [
+        1.4,
+        1.5,
+        "of"
+       ],
+       [
+        1.5,
+        1.58,
+        "your"
+       ],
+       [
+        1.58,
+        2.0,
+        "coins"
+       ],
+       [
+        2.0,
+        2.48,
+        "from"
+       ],
+       [
+        2.48,
+        3.0,
+        "25"
+       ],
+       [
+        3.0,
+        3.4,
+        "%"
+       ],
+       [
+        3.4,
+        3.64,
+        "down"
+       ],
+       [
+        3.64,
+        3.76,
+        "to"
+       ],
+       [
+        3.76,
+        4.14,
+        "5%."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "ui",
+    "from": 1155,
+    "dur": 439,
+    "beats": {
+     "home": 5,
+     "coin": 71,
+     "toLock": 96,
+     "c1w": 115,
+     "c1y": 143,
+     "trade": 166,
+     "signin": 223,
+     "wallet": 248,
+     "google": 281,
+     "custodial": 309,
+     "launch": 347,
+     "scroll": 384
+    },
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "coin",
+      "whoosh",
+      -3
+     ],
+     [
+      "c1w",
+      "click",
+      1
+     ],
+     [
+      "c1y",
+      "click",
+      1
+     ],
+     [
+      "signin",
+      "whoosh",
+      -3
+     ],
+     [
+      "launch",
+      "whoosh",
+      -3
+     ]
+    ],
+    "lines": [
+     {
+      "from": 15,
+      "dur": 45,
+      "cap": "It all runs on clasp.fun.",
+      "say": "It all runs on clasp dot fun.",
+      "key": "c8a20f53a743e5e7",
+      "startSec": 39.0,
+      "durSec": 1.48,
+      "words": [
+       [
+        0.0,
+        0.12,
+        "It"
+       ],
+       [
+        0.12,
+        0.22,
+        "all"
+       ],
+       [
+        0.22,
+        0.42,
+        "runs"
+       ],
+       [
+        0.42,
+        0.6,
+        "on"
+       ],
+       [
+        0.6,
+        0.84,
+        "class"
+       ],
+       [
+        0.84,
+        1.28,
+        ".fun."
+       ]
+      ]
+     },
+     {
+      "from": 77,
+      "dur": 71,
+      "cap": "Open a coin, pick an amount and a lock length.",
+      "say": "Open a coin, pick an amount and a lock length.",
+      "key": "f44f6026476b8507",
+      "startSec": 41.06666666666667,
+      "durSec": 2.35,
+      "words": [
+       [
+        0.0,
+        0.2,
+        "Open"
+       ],
+       [
+        0.2,
+        0.36,
+        "a"
+       ],
+       [
+        0.36,
+        0.6,
+        "coin,"
+       ],
+       [
+        0.98,
+        1.06,
+        "pick"
+       ],
+       [
+        1.06,
+        1.2,
+        "an"
+       ],
+       [
+        1.2,
+        1.48,
+        "amount,"
+       ],
+       [
+        1.66,
+        1.74,
+        "and"
+       ],
+       [
+        1.74,
+        1.82,
+        "a"
+       ],
+       [
+        1.82,
+        2.04,
+        "lock"
+       ],
+       [
+        2.04,
+        2.26,
+        "length."
+       ]
+      ]
+     },
+     {
+      "from": 175,
+      "dur": 34,
+      "cap": "Trade on the same page.",
+      "say": "Trade on the same page.",
+      "key": "dfec20cf10c8b8d0",
+      "startSec": 44.333333333333336,
+      "durSec": 1.11,
+      "words": [
+       [
+        0.0,
+        0.18,
+        "Trade"
+       ],
+       [
+        0.18,
+        0.3,
+        "on"
+       ],
+       [
+        0.3,
+        0.42,
+        "the"
+       ],
+       [
+        0.42,
+        0.56,
+        "same"
+       ],
+       [
+        0.56,
+        0.84,
+        "page."
+       ]
+      ]
+     },
+     {
+      "from": 232,
+      "dur": 101,
+      "cap": "Sign in with a wallet, or with Google, which is custodial.",
+      "say": "Sign in with a wallet, or with Google, which is custodial.",
+      "key": "3e880d1745624a42",
+      "startSec": 46.233333333333334,
+      "durSec": 3.34,
+      "words": [
+       [
+        0.0,
+        0.24,
+        "Sign"
+       ],
+       [
+        0.24,
+        0.38,
+        "in"
+       ],
+       [
+        0.38,
+        0.5,
+        "with"
+       ],
+       [
+        0.5,
+        0.62,
+        "a"
+       ],
+       [
+        0.62,
+        0.92,
+        "wallet,"
+       ],
+       [
+        1.54,
+        1.6,
+        "or"
+       ],
+       [
+        1.6,
+        1.74,
+        "with"
+       ],
+       [
+        1.74,
+        2.02,
+        "Google,"
+       ],
+       [
+        2.46,
+        2.54,
+        "which"
+       ],
+       [
+        2.54,
+        2.68,
+        "is"
+       ],
+       [
+        2.68,
+        3.22,
+        "custodial."
+       ]
+      ]
+     },
+     {
+      "from": 356,
+      "dur": 68,
+      "cap": "Or launch a coin with its vault built in.",
+      "say": "Or launch a coin with its vault built in.",
+      "key": "f580c691f54d73be",
+      "startSec": 50.36666666666667,
+      "durSec": 2.25,
+      "words": [
+       [
+        0.0,
+        0.14,
+        "or"
+       ],
+       [
+        0.14,
+        0.4,
+        "launch"
+       ],
+       [
+        0.4,
+        0.54,
+        "a"
+       ],
+       [
+        0.54,
+        0.86,
+        "coin"
+       ],
+       [
+        0.86,
+        1.18,
+        "with"
+       ],
+       [
+        1.18,
+        1.28,
+        "its"
+       ],
+       [
+        1.28,
+        1.58,
+        "vault"
+       ],
+       [
+        1.58,
+        1.82,
+        "built"
+       ],
+       [
+        1.82,
+        2.08,
+        "-in."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "proof",
+    "from": 1594,
+    "dur": 471,
+    "beats": {
+     "live": 15,
+     "cards": 56,
+     "test": 130,
+     "count": 179,
+     "countEnd": 247,
+     "bots": 312,
+     "keeper": 364,
+     "harvest": 379,
+     "treasury": 415
+    },
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "cards",
+      "tick",
+      2
+     ],
+     [
+      "test",
+      "whoosh",
+      -3
+     ],
+     [
+      "countEnd",
+      "pop",
+      3
+     ],
+     [
+      "harvest",
+      "tick",
+      2
+     ],
+     [
+      "treasury",
+      "tick",
+      2
+     ]
+    ],
+    "lines": [
+     {
+      "from": 12,
+      "dur": 115,
+      "cap": "It's live on Robinhood Chain. The contracts are immutable and verified.",
+      "say": "It's live on Robinhood Chain. The contracts are immutable and verified.",
+      "key": "b9b76afe186309f0",
+      "startSec": 53.53333333333333,
+      "durSec": 3.83,
+      "words": [
+       [
+        0.0,
+        0.2,
+        "It's"
+       ],
+       [
+        0.2,
+        0.32,
+        "live"
+       ],
+       [
+        0.32,
+        0.48,
+        "on"
+       ],
+       [
+        0.48,
+        0.7,
+        "Robin"
+       ],
+       [
+        0.7,
+        0.84,
+        "Hood"
+       ],
+       [
+        0.84,
+        1.12,
+        "Chain."
+       ],
+       [
+        1.6,
+        1.66,
+        "The"
+       ],
+       [
+        1.66,
+        2.04,
+        "contracts"
+       ],
+       [
+        2.04,
+        2.36,
+        "are"
+       ],
+       [
+        2.36,
+        2.7,
+        "immutable"
+       ],
+       [
+        2.7,
+        3.12,
+        "and"
+       ],
+       [
+        3.12,
+        3.54,
+        "verified."
+       ]
+      ]
+     },
+     {
+      "from": 139,
+      "dur": 212,
+      "cap": "Our test coin's vault took in 0.0879 ETH in its first hours, mostly bot launch tax.",
+      "say": "Our test coin's vault took in zero point zero eight seven nine ETH in its first hours, mostly bot launch tax.",
+      "key": "2fa0e1d73916741d",
+      "startSec": 57.766666666666666,
+      "durSec": 7.05,
+      "words": [
+       [
+        0.0,
+        0.18,
+        "Our"
+       ],
+       [
+        0.18,
+        0.34,
+        "test"
+       ],
+       [
+        0.34,
+        0.6,
+        "coins"
+       ],
+       [
+        0.6,
+        0.86,
+        "vault"
+       ],
+       [
+        0.86,
+        1.14,
+        "took"
+       ],
+       [
+        1.14,
+        1.32,
+        "in"
+       ],
+       [
+        1.32,
+        1.62,
+        "0"
+       ],
+       [
+        1.62,
+        3.6,
+        ".079"
+       ],
+       [
+        3.6,
+        4.04,
+        "ETH"
+       ],
+       [
+        4.04,
+        4.5,
+        "in"
+       ],
+       [
+        4.5,
+        4.62,
+        "its"
+       ],
+       [
+        4.62,
+        4.88,
+        "first"
+       ],
+       [
+        4.88,
+        5.32,
+        "hours,"
+       ],
+       [
+        5.78,
+        6.02,
+        "mostly"
+       ],
+       [
+        6.02,
+        6.24,
+        "bot"
+       ],
+       [
+        6.24,
+        6.44,
+        "launch"
+       ],
+       [
+        6.44,
+        6.76,
+        "tax."
+       ]
+      ]
+     },
+     {
+      "from": 359,
+      "dur": 97,
+      "cap": "Our keeper bot harvested it and sent the treasury share on its own.",
+      "say": "Our keeper bot harvested it and sent the treasury share on its own.",
+      "key": "1223dbf04d2506b6",
+      "startSec": 65.1,
+      "durSec": 3.23,
+      "words": [
+       [
+        0.0,
+        0.16,
+        "Our"
+       ],
+       [
+        0.16,
+        0.4,
+        "keeper"
+       ],
+       [
+        0.4,
+        0.66,
+        "bot"
+       ],
+       [
+        0.66,
+        0.98,
+        "harvested"
+       ],
+       [
+        0.98,
+        1.3,
+        "it"
+       ],
+       [
+        1.3,
+        1.5,
+        "and"
+       ],
+       [
+        1.5,
+        1.72,
+        "sent"
+       ],
+       [
+        1.72,
+        1.88,
+        "the"
+       ],
+       [
+        1.88,
+        2.24,
+        "treasury"
+       ],
+       [
+        2.24,
+        2.56,
+        "share"
+       ],
+       [
+        2.56,
+        2.78,
+        "on"
+       ],
+       [
+        2.78,
+        2.9,
+        "its"
+       ],
+       [
+        2.9,
+        3.1,
+        "own."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "honest",
+    "from": 2065,
+    "dur": 138,
+    "beats": {
+     "title": 6,
+     "items": 47
+    },
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "title",
+      "low",
+      2
+     ]
+    ],
+    "lines": [
+     {
+      "from": 12,
+      "dur": 80,
+      "cap": "It's not audited yet, and memecoins can go to zero.",
+      "say": "It's not audited yet, and meme coins can go to zero.",
+      "key": "fcc11726a20028a4",
+      "startSec": 69.23333333333333,
+      "durSec": 2.65,
+      "words": [
+       [
+        0.0,
+        0.16,
+        "It's"
+       ],
+       [
+        0.16,
+        0.3,
+        "not"
+       ],
+       [
+        0.3,
+        0.66,
+        "audited"
+       ],
+       [
+        0.66,
+        0.94,
+        "yet,"
+       ],
+       [
+        1.22,
+        1.28,
+        "and"
+       ],
+       [
+        1.28,
+        1.46,
+        "meme"
+       ],
+       [
+        1.46,
+        1.78,
+        "coins"
+       ],
+       [
+        1.78,
+        1.94,
+        "can"
+       ],
+       [
+        1.94,
+        2.06,
+        "go"
+       ],
+       [
+        2.06,
+        2.16,
+        "to"
+       ],
+       [
+        2.16,
+        2.36,
+        "zero."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "end",
+    "from": 2203,
+    "dur": 125,
+    "beats": {
+     "card": 3
+    },
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "card",
+      "swell",
+      6
+     ]
+    ],
+    "lines": [
+     {
+      "from": 15,
+      "dur": 24,
+      "cap": "clasp.fun",
+      "say": "Clasp dot fun.",
+      "key": "9723c322640a6536",
+      "startSec": 73.93333333333334,
+      "durSec": 0.78,
+      "words": [
+       [
+        0.0,
+        0.18,
+        "Class"
+       ],
+       [
+        0.18,
+        0.36,
+        "the"
+       ],
+       [
+        0.36,
+        0.6,
+        "fun!"
+       ]
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "clip-money-flow": {
+  "fps": 30,
+  "durationInFrames": 611,
+  "scenes": [
+   {
+    "id": "flow",
+    "from": 0,
+    "dur": 524,
+    "beats": {
+     "title": 0,
+     "vault": 98,
+     "srcA": 142,
+     "srcB": 222,
+     "out90": 296,
+     "stream": 316,
+     "out10": 392,
+     "out0": 451
+    },
+    "sfx": [
+     [
+      "title",
+      "pop",
+      3
+     ],
+     [
+      "vault",
+      "pop",
+      3
+     ],
+     [
+      "srcA",
+      "tick",
+      2
+     ],
+     [
+      "srcB",
+      "tick",
+      2
+     ],
+     [
+      "out90",
+      "pop",
+      3
+     ],
+     [
+      "out10",
+      "tick",
+      2
+     ],
+     [
+      "out0",
+      "tick",
+      2
+     ]
+    ],
+    "lines": [
+     {
+      "from": 18,
+      "dur": 42,
+      "cap": "Where does the ETH come from?",
+      "say": "Where does the ETH come from?",
+      "key": "c08b4e34cbd4d06e",
+      "startSec": 0.6,
+      "durSec": 1.37,
+      "words": [
+       [
+        0.0,
+        0.12,
+        "Where"
+       ],
+       [
+        0.12,
+        0.22,
+        "does"
+       ],
+       [
+        0.22,
+        0.3,
+        "the"
+       ],
+       [
+        0.3,
+        0.62,
+        "ETH"
+       ],
+       [
+        0.62,
+        0.98,
+        "come"
+       ],
+       [
+        0.98,
+        1.22,
+        "from?"
+       ]
+      ]
+     },
+     {
+      "from": 73,
+      "dur": 128,
+      "cap": "Every buy or sell through Clasp pays a 2% fee into the coin's vault.",
+      "say": "Every buy or sell through Clasp pays a two percent fee into the coin's vault.",
+      "key": "cf7230cbcf06c4f9",
+      "startSec": 2.433333333333333,
+      "durSec": 4.26,
+      "words": [
+       [
+        0.0,
+        0.22,
+        "Every"
+       ],
+       [
+        0.22,
+        0.44,
+        "buy"
+       ],
+       [
+        0.44,
+        0.6,
+        "or"
+       ],
+       [
+        0.6,
+        0.94,
+        "sell"
+       ],
+       [
+        0.94,
+        1.34,
+        "through"
+       ],
+       [
+        1.34,
+        1.68,
+        "class"
+       ],
+       [
+        1.68,
+        2.02,
+        "pays"
+       ],
+       [
+        2.02,
+        2.3,
+        "a"
+       ],
+       [
+        2.3,
+        2.52,
+        "2"
+       ],
+       [
+        2.52,
+        2.9,
+        "%"
+       ],
+       [
+        2.9,
+        3.24,
+        "fee"
+       ],
+       [
+        3.24,
+        3.58,
+        "into"
+       ],
+       [
+        3.58,
+        3.7,
+        "the"
+       ],
+       [
+        3.7,
+        3.98,
+        "coin's"
+       ],
+       [
+        3.98,
+        4.12,
+        "vault."
+       ]
+      ]
+     },
+     {
+      "from": 213,
+      "dur": 68,
+      "cap": "The coin's creator fees from Pons land there too.",
+      "say": "The coin's creator fees from Pons land there too.",
+      "key": "de5de6eaef2465ba",
+      "startSec": 7.1,
+      "durSec": 2.26,
+      "words": [
+       [
+        0.0,
+        0.14,
+        "The"
+       ],
+       [
+        0.14,
+        0.3,
+        "coins"
+       ],
+       [
+        0.3,
+        0.56,
+        "creator"
+       ],
+       [
+        0.56,
+        0.88,
+        "fees"
+       ],
+       [
+        0.88,
+        1.14,
+        "from"
+       ],
+       [
+        1.14,
+        1.56,
+        "pawns"
+       ],
+       [
+        1.56,
+        1.9,
+        "lander"
+       ],
+       [
+        1.9,
+        2.08,
+        "2."
+       ]
+      ]
+     },
+     {
+      "from": 296,
+      "dur": 87,
+      "cap": "90% streams to lockers over 1 hour.",
+      "say": "Ninety percent streams to lockers over one hour.",
+      "key": "3b455cfbe0f35adf",
+      "startSec": 9.866666666666667,
+      "durSec": 2.9,
+      "words": [
+       [
+        0.0,
+        0.3,
+        "90"
+       ],
+       [
+        0.3,
+        0.66,
+        "%"
+       ],
+       [
+        0.66,
+        1.04,
+        "streams"
+       ],
+       [
+        1.04,
+        1.32,
+        "to"
+       ],
+       [
+        1.32,
+        1.88,
+        "lockers"
+       ],
+       [
+        1.88,
+        2.22,
+        "over"
+       ],
+       [
+        2.22,
+        2.46,
+        "one"
+       ],
+       [
+        2.46,
+        2.7,
+        "hour."
+       ]
+      ]
+     },
+     {
+      "from": 392,
+      "dur": 102,
+      "cap": "10% goes to Clasp. The creator takes 0%.",
+      "say": "Ten percent goes to Clasp. The creator takes zero.",
+      "key": "83df34c55772621d",
+      "startSec": 13.066666666666666,
+      "durSec": 3.39,
+      "words": [
+       [
+        0.0,
+        0.2,
+        "10"
+       ],
+       [
+        0.2,
+        0.6,
+        "%"
+       ],
+       [
+        0.6,
+        0.82,
+        "goes"
+       ],
+       [
+        0.82,
+        1.0,
+        "to"
+       ],
+       [
+        1.0,
+        1.3,
+        "class."
+       ],
+       [
+        1.82,
+        1.98,
+        "The"
+       ],
+       [
+        1.98,
+        2.28,
+        "creator"
+       ],
+       [
+        2.28,
+        2.64,
+        "takes"
+       ],
+       [
+        2.64,
+        3.04,
+        "zero."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "end",
+    "from": 524,
+    "dur": 87,
+    "beats": {},
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "start",
+      "swell",
+      6
+     ]
+    ],
+    "lines": []
+   }
+  ]
+ },
+ "clip-lock-weight": {
+  "fps": 30,
+  "durationInFrames": 725,
+  "scenes": [
+   {
+    "id": "weight",
+    "from": 0,
+    "dur": 638,
+    "beats": {
+     "title": 0,
+     "formula": 81,
+     "fTime": 139,
+     "fSize": 182,
+     "curve": 207,
+     "sweep": 233,
+     "sweepEnd": 307,
+     "size": 343,
+     "example": 449,
+     "share": 541
+    },
+    "sfx": [
+     [
+      "title",
+      "pop",
+      3
+     ],
+     [
+      "formula",
+      "whoosh",
+      -3
+     ],
+     [
+      "fTime",
+      "tick",
+      2
+     ],
+     [
+      "fSize",
+      "tick",
+      2
+     ],
+     [
+      "curve",
+      "whoosh",
+      -3
+     ],
+     [
+      "sweepEnd",
+      "pop",
+      3
+     ],
+     [
+      "size",
+      "whoosh",
+      -3
+     ],
+     [
+      "example",
+      "whoosh",
+      -3
+     ],
+     [
+      "share",
+      "pop",
+      3
+     ]
+    ],
+    "lines": [
+     {
+      "from": 18,
+      "dur": 56,
+      "cap": "Your share of the fees depends on your weight.",
+      "say": "Your share of the fees depends on your weight.",
+      "key": "95c0c399bdde0747",
+      "startSec": 0.6,
+      "durSec": 1.85,
+      "words": [
+       [
+        0.0,
+        0.14,
+        "Your"
+       ],
+       [
+        0.14,
+        0.32,
+        "share"
+       ],
+       [
+        0.32,
+        0.44,
+        "of"
+       ],
+       [
+        0.44,
+        0.54,
+        "the"
+       ],
+       [
+        0.54,
+        0.92,
+        "fees"
+       ],
+       [
+        0.92,
+        1.34,
+        "depends"
+       ],
+       [
+        1.34,
+        1.5,
+        "on"
+       ],
+       [
+        1.5,
+        1.6,
+        "your"
+       ],
+       [
+        1.6,
+        1.74,
+        "weight."
+       ]
+      ]
+     },
+     {
+      "from": 84,
+      "dur": 122,
+      "cap": "Weight is the amount you lock, times a time boost, times a size boost.",
+      "say": "Weight is the amount you lock, times a time boost, times a size boost.",
+      "key": "14e516d02d109aa7",
+      "startSec": 2.8,
+      "durSec": 4.06,
+      "words": [
+       [
+        0.0,
+        0.22,
+        "Weight"
+       ],
+       [
+        0.22,
+        0.38,
+        "is"
+       ],
+       [
+        0.38,
+        0.52,
+        "the"
+       ],
+       [
+        0.52,
+        0.68,
+        "amount"
+       ],
+       [
+        0.68,
+        0.86,
+        "you"
+       ],
+       [
+        0.86,
+        1.24,
+        "lock,"
+       ],
+       [
+        1.82,
+        1.86,
+        "times"
+       ],
+       [
+        1.86,
+        2.02,
+        "a"
+       ],
+       [
+        2.02,
+        2.26,
+        "time"
+       ],
+       [
+        2.26,
+        2.64,
+        "boost,"
+       ],
+       [
+        3.1,
+        3.12,
+        "times"
+       ],
+       [
+        3.12,
+        3.28,
+        "a"
+       ],
+       [
+        3.28,
+        3.54,
+        "size"
+       ],
+       [
+        3.54,
+        3.84,
+        "boost."
+       ]
+      ]
+     },
+     {
+      "from": 216,
+      "dur": 103,
+      "cap": "Time goes from 1× at 4 hours, to 4× at a year.",
+      "say": "Time goes from one times at four hours, to four times at a year.",
+      "key": "8ffd40c8c6a2d0c7",
+      "startSec": 7.2,
+      "durSec": 3.41,
+      "words": [
+       [
+        0.0,
+        0.18,
+        "Time"
+       ],
+       [
+        0.18,
+        0.38,
+        "goes"
+       ],
+       [
+        0.38,
+        0.58,
+        "from"
+       ],
+       [
+        0.58,
+        0.82,
+        "one"
+       ],
+       [
+        0.82,
+        1.12,
+        "times"
+       ],
+       [
+        1.12,
+        1.32,
+        "at"
+       ],
+       [
+        1.32,
+        1.62,
+        "four"
+       ],
+       [
+        1.62,
+        1.96,
+        "hours"
+       ],
+       [
+        1.96,
+        2.4,
+        "to"
+       ],
+       [
+        2.4,
+        2.66,
+        "four"
+       ],
+       [
+        2.66,
+        2.9,
+        "times"
+       ],
+       [
+        2.9,
+        3.04,
+        "a"
+       ],
+       [
+        3.04,
+        3.22,
+        "year."
+       ]
+      ]
+     },
+     {
+      "from": 332,
+      "dur": 113,
+      "cap": "Locking a big slice of the supply adds up to +50%.",
+      "say": "Locking a big slice of the supply adds up to fifty percent.",
+      "key": "a5016fe3c4be52b9",
+      "startSec": 11.066666666666666,
+      "durSec": 3.75,
+      "words": [
+       [
+        0.0,
+        0.28,
+        "Locking"
+       ],
+       [
+        0.28,
+        0.46,
+        "a"
+       ],
+       [
+        0.46,
+        0.76,
+        "big"
+       ],
+       [
+        0.76,
+        1.04,
+        "slice"
+       ],
+       [
+        1.04,
+        1.2,
+        "of"
+       ],
+       [
+        1.2,
+        1.28,
+        "the"
+       ],
+       [
+        1.28,
+        1.72,
+        "supply"
+       ],
+       [
+        1.72,
+        2.34,
+        "adds"
+       ],
+       [
+        2.34,
+        2.76,
+        "up"
+       ],
+       [
+        2.76,
+        2.96,
+        "to"
+       ],
+       [
+        2.96,
+        3.56,
+        "50%."
+       ]
+      ]
+     },
+     {
+      "from": 458,
+      "dur": 157,
+      "cap": "Two lockers, same amount: the 1-year lock gets about 74% of each payout.",
+      "say": "Two lockers, same amount: the one-year lock gets about seventy-four percent of each payout.",
+      "key": "1aa05c18bd5ac9ff",
+      "startSec": 15.266666666666667,
+      "durSec": 5.21,
+      "words": [
+       [
+        0.0,
+        0.2,
+        "Two"
+       ],
+       [
+        0.2,
+        0.7,
+        "lockers,"
+       ],
+       [
+        1.04,
+        1.12,
+        "same"
+       ],
+       [
+        1.12,
+        1.44,
+        "amount."
+       ],
+       [
+        1.94,
+        2.04,
+        "The"
+       ],
+       [
+        2.04,
+        2.18,
+        "one"
+       ],
+       [
+        2.18,
+        2.3,
+        "-year"
+       ],
+       [
+        2.3,
+        2.6,
+        "lock"
+       ],
+       [
+        2.6,
+        2.78,
+        "gets"
+       ],
+       [
+        2.78,
+        3.0,
+        "about"
+       ],
+       [
+        3.0,
+        3.6,
+        "74"
+       ],
+       [
+        3.6,
+        4.04,
+        "%"
+       ],
+       [
+        4.04,
+        4.5,
+        "of"
+       ],
+       [
+        4.5,
+        4.68,
+        "each"
+       ],
+       [
+        4.68,
+        4.94,
+        "payout."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "end",
+    "from": 638,
+    "dur": 87,
+    "beats": {},
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "start",
+      "swell",
+      6
+     ]
+    ],
+    "lines": []
+   }
+  ]
+ },
+ "clip-early-exit": {
+  "fps": 30,
+  "durationInFrames": 627,
+  "scenes": [
+   {
+    "id": "exit",
+    "from": 0,
+    "dur": 540,
+    "beats": {
+     "title": 0,
+     "chart": 101,
+     "play": 135,
+     "playEnd": 262,
+     "dead": 277,
+     "eth": 324,
+     "ethKeep": 435
+    },
+    "sfx": [
+     [
+      "title",
+      "pop",
+      3
+     ],
+     [
+      "chart",
+      "whoosh",
+      -3
+     ],
+     [
+      "playEnd",
+      "tick",
+      2
+     ],
+     [
+      "dead",
+      "low",
+      2
+     ],
+     [
+      "eth",
+      "whoosh",
+      -3
+     ],
+     [
+      "ethKeep",
+      "pop",
+      3
+     ]
+    ],
+    "lines": [
+     {
+      "from": 18,
+      "dur": 79,
+      "cap": "You can leave a lock early. It costs part of your coins.",
+      "say": "You can leave a lock early. It costs part of your coins.",
+      "key": "bbabf3f88410c649",
+      "startSec": 0.6,
+      "durSec": 2.61,
+      "words": [
+       [
+        0.0,
+        0.1,
+        "You"
+       ],
+       [
+        0.1,
+        0.18,
+        "can"
+       ],
+       [
+        0.18,
+        0.28,
+        "leave"
+       ],
+       [
+        0.28,
+        0.38,
+        "a"
+       ],
+       [
+        0.38,
+        0.6,
+        "lock"
+       ],
+       [
+        0.6,
+        0.94,
+        "early."
+       ],
+       [
+        1.38,
+        1.46,
+        "It"
+       ],
+       [
+        1.46,
+        1.66,
+        "costs"
+       ],
+       [
+        1.66,
+        1.88,
+        "part"
+       ],
+       [
+        1.88,
+        2.0,
+        "of"
+       ],
+       [
+        2.0,
+        2.04,
+        "your"
+       ],
+       [
+        2.04,
+        2.3,
+        "coins."
+       ]
+      ]
+     },
+     {
+      "from": 110,
+      "dur": 159,
+      "cap": "The burn starts at 25% and shrinks as the lock runs, but never below 5%.",
+      "say": "The burn starts at twenty-five percent and shrinks as the lock runs, but never below five.",
+      "key": "c3a2292ee0329bd6",
+      "startSec": 3.6666666666666665,
+      "durSec": 5.28,
+      "words": [
+       [
+        0.0,
+        0.14,
+        "The"
+       ],
+       [
+        0.14,
+        0.32,
+        "burn"
+       ],
+       [
+        0.32,
+        0.66,
+        "starts"
+       ],
+       [
+        0.66,
+        0.82,
+        "at"
+       ],
+       [
+        0.82,
+        1.3,
+        "25"
+       ],
+       [
+        1.3,
+        1.72,
+        "%"
+       ],
+       [
+        1.72,
+        2.2,
+        "and"
+       ],
+       [
+        2.2,
+        2.72,
+        "shrinks"
+       ],
+       [
+        2.72,
+        3.1,
+        "as"
+       ],
+       [
+        3.1,
+        3.24,
+        "the"
+       ],
+       [
+        3.24,
+        3.46,
+        "lock"
+       ],
+       [
+        3.46,
+        3.84,
+        "runs,"
+       ],
+       [
+        4.12,
+        4.28,
+        "but"
+       ],
+       [
+        4.28,
+        4.54,
+        "never"
+       ],
+       [
+        4.54,
+        4.78,
+        "below"
+       ],
+       [
+        4.78,
+        5.1,
+        "5."
+       ]
+      ]
+     },
+     {
+      "from": 283,
+      "dur": 37,
+      "cap": "Burned coins are gone for good.",
+      "say": "Burned coins are gone for good.",
+      "key": "93375015db82da1b",
+      "startSec": 9.433333333333334,
+      "durSec": 1.21,
+      "words": [
+       [
+        0.0,
+        0.16,
+        "Burn"
+       ],
+       [
+        0.16,
+        0.4,
+        "coins"
+       ],
+       [
+        0.4,
+        0.54,
+        "are"
+       ],
+       [
+        0.54,
+        0.7,
+        "gone"
+       ],
+       [
+        0.7,
+        0.9,
+        "for"
+       ],
+       [
+        0.9,
+        1.06,
+        "good."
+       ]
+      ]
+     },
+     {
+      "from": 333,
+      "dur": 98,
+      "cap": "ETH you haven't collected goes back to the other lockers.",
+      "say": "ETH you haven't collected goes back to the other lockers.",
+      "key": "7780b41c1f80752a",
+      "startSec": 11.1,
+      "durSec": 3.25,
+      "words": [
+       [
+        0.0,
+        0.36,
+        "ETH"
+       ],
+       [
+        0.36,
+        0.7,
+        "you"
+       ],
+       [
+        0.7,
+        1.06,
+        "haven't"
+       ],
+       [
+        1.06,
+        1.4,
+        "collected"
+       ],
+       [
+        1.4,
+        1.82,
+        "goes"
+       ],
+       [
+        1.82,
+        2.2,
+        "back"
+       ],
+       [
+        2.2,
+        2.38,
+        "to"
+       ],
+       [
+        2.38,
+        2.48,
+        "the"
+       ],
+       [
+        2.48,
+        2.64,
+        "other"
+       ],
+       [
+        2.64,
+        3.06,
+        "lockers."
+       ]
+      ]
+     },
+     {
+      "from": 438,
+      "dur": 72,
+      "cap": "ETH you already collected stays yours.",
+      "say": "ETH you already collected stays yours.",
+      "key": "3f1be8ba3cc62996",
+      "startSec": 14.6,
+      "durSec": 2.39,
+      "words": [
+       [
+        0.0,
+        0.36,
+        "ETH"
+       ],
+       [
+        0.36,
+        0.72,
+        "you"
+       ],
+       [
+        0.72,
+        1.02,
+        "already"
+       ],
+       [
+        1.02,
+        1.46,
+        "collected"
+       ],
+       [
+        1.46,
+        1.82,
+        "stays"
+       ],
+       [
+        1.82,
+        2.1,
+        "yours."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "end",
+    "from": 540,
+    "dur": 87,
+    "beats": {},
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "start",
+      "swell",
+      6
+     ]
+    ],
+    "lines": []
+   }
+  ]
+ },
+ "clip-walkthrough": {
+  "fps": 30,
+  "durationInFrames": 739,
+  "scenes": [
+   {
+    "id": "walk",
+    "from": 0,
+    "dur": 652,
+    "beats": {
+     "home": 9,
+     "coin": 108,
+     "stats": 146,
+     "paid": 201,
+     "toLock": 230,
+     "type": 245,
+     "c1w": 274,
+     "c1y": 308,
+     "boost": 335,
+     "trade": 385,
+     "fee": 437,
+     "signin": 503,
+     "wallet": 539,
+     "google": 573,
+     "custodial": 597
+    },
+    "sfx": [
+     [
+      "home",
+      "whoosh",
+      -3
+     ],
+     [
+      "coin",
+      "whoosh",
+      -3
+     ],
+     [
+      "c1w",
+      "click",
+      1
+     ],
+     [
+      "c1y",
+      "click",
+      1
+     ],
+     [
+      "trade",
+      "whoosh",
+      -3
+     ],
+     [
+      "signin",
+      "whoosh",
+      -3
+     ]
+    ],
+    "lines": [
+     {
+      "from": 18,
+      "dur": 79,
+      "cap": "Here's a lock on clasp.fun, start to finish.",
+      "say": "Here's a lock on clasp dot fun, start to finish.",
+      "key": "d310c6b80baa92be",
+      "startSec": 0.6,
+      "durSec": 2.61,
+      "words": [
+       [
+        0.0,
+        0.2,
+        "Here's"
+       ],
+       [
+        0.2,
+        0.26,
+        "a"
+       ],
+       [
+        0.26,
+        0.42,
+        "lock"
+       ],
+       [
+        0.42,
+        0.58,
+        "on"
+       ],
+       [
+        0.58,
+        0.9,
+        "class"
+       ],
+       [
+        0.9,
+        1.52,
+        ".fun."
+       ],
+       [
+        1.88,
+        1.96,
+        "Start"
+       ],
+       [
+        1.96,
+        2.08,
+        "of"
+       ],
+       [
+        2.08,
+        2.26,
+        "finish."
+       ]
+      ]
+     },
+     {
+      "from": 117,
+      "dur": 102,
+      "cap": "Open a coin to see its price, its lockers, and what it has paid out.",
+      "say": "Open a coin to see its price, its lockers, and what it has paid out.",
+      "key": "9ee4087cd849b740",
+      "startSec": 3.9,
+      "durSec": 3.39,
+      "words": [
+       [
+        0.0,
+        0.2,
+        "Open"
+       ],
+       [
+        0.2,
+        0.32,
+        "a"
+       ],
+       [
+        0.32,
+        0.52,
+        "coin"
+       ],
+       [
+        0.52,
+        0.72,
+        "to"
+       ],
+       [
+        0.72,
+        0.86,
+        "see"
+       ],
+       [
+        0.86,
+        0.98,
+        "its"
+       ],
+       [
+        0.98,
+        1.38,
+        "price,"
+       ],
+       [
+        1.8,
+        1.9,
+        "its"
+       ],
+       [
+        1.9,
+        2.4,
+        "lockers,"
+       ],
+       [
+        2.52,
+        2.58,
+        "and"
+       ],
+       [
+        2.58,
+        2.66,
+        "what"
+       ],
+       [
+        2.66,
+        2.8,
+        "has"
+       ],
+       [
+        2.8,
+        3.02,
+        "paid"
+       ],
+       [
+        3.02,
+        3.3,
+        "out."
+       ]
+      ]
+     },
+     {
+      "from": 240,
+      "dur": 55,
+      "cap": "Enter an amount and pick a lock length.",
+      "say": "Enter an amount and pick a lock length.",
+      "key": "3e039e335bf8e75b",
+      "startSec": 8.0,
+      "durSec": 1.81,
+      "words": [
+       [
+        0.0,
+        0.24,
+        "Enter"
+       ],
+       [
+        0.24,
+        0.38,
+        "an"
+       ],
+       [
+        0.38,
+        0.64,
+        "amount"
+       ],
+       [
+        0.64,
+        1.02,
+        "and"
+       ],
+       [
+        1.02,
+        1.16,
+        "pick"
+       ],
+       [
+        1.16,
+        1.3,
+        "a"
+       ],
+       [
+        1.3,
+        1.5,
+        "lock"
+       ],
+       [
+        1.5,
+        1.7,
+        "length."
+       ]
+      ]
+     },
+     {
+      "from": 305,
+      "dur": 66,
+      "cap": "One year gets the full 4× boost.",
+      "say": "One year gets the full four times boost.",
+      "key": "49234f0f9b2594b6",
+      "startSec": 10.166666666666666,
+      "durSec": 2.17,
+      "words": [
+       [
+        0.0,
+        0.22,
+        "One"
+       ],
+       [
+        0.22,
+        0.36,
+        "year"
+       ],
+       [
+        0.36,
+        0.54,
+        "gets"
+       ],
+       [
+        0.54,
+        0.68,
+        "the"
+       ],
+       [
+        0.68,
+        1.0,
+        "full"
+       ],
+       [
+        1.0,
+        1.38,
+        "four"
+       ],
+       [
+        1.38,
+        1.68,
+        "times"
+       ],
+       [
+        1.68,
+        1.92,
+        "boost."
+       ]
+      ]
+     },
+     {
+      "from": 397,
+      "dur": 92,
+      "cap": "Trades on this page pay 2% into the coin's vault.",
+      "say": "Trades on this page pay two percent into the coin's vault.",
+      "key": "e60b780ffc07c48e",
+      "startSec": 13.233333333333333,
+      "durSec": 3.04,
+      "words": [
+       [
+        0.0,
+        0.3,
+        "Trades"
+       ],
+       [
+        0.3,
+        0.4,
+        "on"
+       ],
+       [
+        0.4,
+        0.56,
+        "this"
+       ],
+       [
+        0.56,
+        0.9,
+        "page"
+       ],
+       [
+        0.9,
+        1.34,
+        "pay"
+       ],
+       [
+        1.34,
+        1.66,
+        "2"
+       ],
+       [
+        1.66,
+        2.08,
+        "%"
+       ],
+       [
+        2.08,
+        2.36,
+        "into"
+       ],
+       [
+        2.36,
+        2.48,
+        "the"
+       ],
+       [
+        2.48,
+        2.68,
+        "coins"
+       ],
+       [
+        2.68,
+        2.9,
+        "vault."
+       ]
+      ]
+     },
+     {
+      "from": 515,
+      "dur": 111,
+      "cap": "Then sign in with your own wallet, or with Google, which is custodial.",
+      "say": "Then sign in with your own wallet, or with Google, which is custodial.",
+      "key": "ce4abcfd283bf114",
+      "startSec": 17.166666666666668,
+      "durSec": 3.68,
+      "words": [
+       [
+        0.0,
+        0.16,
+        "Then"
+       ],
+       [
+        0.16,
+        0.4,
+        "sign"
+       ],
+       [
+        0.4,
+        0.54,
+        "in"
+       ],
+       [
+        0.54,
+        0.64,
+        "with"
+       ],
+       [
+        0.64,
+        0.74,
+        "your"
+       ],
+       [
+        0.74,
+        0.9,
+        "own"
+       ],
+       [
+        0.9,
+        1.24,
+        "wallet,"
+       ],
+       [
+        1.78,
+        1.88,
+        "or"
+       ],
+       [
+        1.88,
+        2.02,
+        "with"
+       ],
+       [
+        2.02,
+        2.28,
+        "Google,"
+       ],
+       [
+        2.82,
+        2.92,
+        "which"
+       ],
+       [
+        2.92,
+        3.06,
+        "is"
+       ],
+       [
+        3.06,
+        3.58,
+        "Custodial."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "end",
+    "from": 652,
+    "dur": 87,
+    "beats": {},
+    "sfx": [
+     [
+      "start",
+      "whoosh",
+      -3
+     ],
+     [
+      "start",
+      "swell",
+      6
+     ]
+    ],
+    "lines": []
+   }
+  ]
+ }
+}
