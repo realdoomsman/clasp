@@ -35,7 +35,7 @@ Two things decide your share: how long you lock and how many coins you lock. Tha
 
 A vault takes in ETH from two places.
 
-**Pons creator fees.** When a coin joins Clasp, its Pons creator fee recipient is set to its vault. Pons collects the creator tax on every trade and holds it in its fee escrow. Anyone can call `harvest()` on the vault to pull those fees in; Clasp runs a small bot that does it automatically once enough has built up.
+**Pons creator fees.** Every Clasp coin is launched with its Pons creator fee recipient set to its vault, before anyone can trade. Pons collects the creator tax on every trade and holds it in its fee escrow. Anyone can call `harvest()` on the vault to pull those fees in; Clasp runs a small bot that does it automatically once enough has built up.
 
 **Clasp's 2% trading fee.** Trades placed on clasp.fun go through the Clasp router, which takes 2% of the ETH side of each buy or sell and sends it straight to that coin's vault in the same transaction. If the trade fails, there is no fee.
 
@@ -87,13 +87,13 @@ Two things are never at risk when you leave early: ETH you have already collecte
 
 The burn is there for one reason: without it, locking for a year to get 4× and then leaving on day two would be free. With it, the multiplier means something.
 
-## Two ways to put a coin on Clasp
+## Launching a coin on Clasp
 
-**Launch a new coin with its vault built in.** The launch form on clasp.fun does everything in a single transaction: it creates the coin on Pons, creates its Clasp vault, points the creator fees at the vault before anyone can trade, makes the creator's first buy, and — if the creator wants — locks part of that buy for them. The creator's own lock earns like anyone else's.
+**Every Clasp coin is launched on Clasp, with its vault built in.** The launch form on clasp.fun does everything in a single transaction: it creates the coin on Pons, creates its Clasp vault, points the creator fees at the vault before anyone can trade, makes the creator's first buy, and — if the creator wants — locks part of that buy for them. The creator's own lock earns like anyone else's.
 
-**Add a coin that already exists on Pons.** Anyone can create a vault for any eligible Pons coin; it only costs gas. Then whoever currently receives the coin's creator fees points them at the vault. From that moment, the fees that used to go to one wallet go to the people who lock.
+Coins launched elsewhere can't be added. That way every Clasp coin's fees have belonged to its vault from the very first trade.
 
-Clasp supports Pons v2 coins traded against ETH with buybacks switched off. That is all the vault can pay out correctly, so it refuses anything else.
+Clasp coins are Pons v2 coins traded against ETH with buybacks switched off. That is all the vault can pay out correctly.
 
 [shot-launch.png]
 
@@ -173,7 +173,7 @@ All on Robinhood Chain (chain ID 4663), verified on Sourcify.
 ## Start here
 
 - Browse coins and lock: clasp.fun/coins
-- Launch a coin with its vault built in, or add your Pons coin: clasp.fun/launch
+- Launch a coin with its vault built in: clasp.fun/launch
 - How it works, in plain words: clasp.fun/how-it-works
 - Everything about safety and risk: clasp.fun/security
 

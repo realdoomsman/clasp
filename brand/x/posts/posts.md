@@ -172,21 +172,9 @@ And you never have to unlock to get paid. ETH builds up continuously; collect it
 
 ---
 
-## 10 — Bring an existing Pons coin
+## 10 — (deleted 2026-09-26)
 
-- **Type:** use case (steps + screenshot)
-- **Media:** `post-10.png`
-
-```text
-Already launched on Pons? Two steps to bring the coin to Clasp:
-
-1. Create its vault. Anyone can, and it only costs gas.
-2. The coin's current creator-fee recipient points its Pons creator fees at the vault.
-
-From then on, those fees go to the people who lock it. Works for ETH-paired Pons v2 coins with buyback off.
-```
-
-**Alt text:** Two numbered step cards: 1, create the coin's vault (anyone can, costs only gas); 2, point creator fees at the vault (done by the coin's current creator-fee recipient on Pons). Beside them, a real screenshot of the "Bring your coin to Clasp" section of clasp.fun/launch with a coin address field.
+Was "Bring an existing Pons coin". Deleted from X when Clasp became launch-only: coins launched elsewhere can no longer be added (docs/SPEC.md, *Launch only*). `post-10.png` kept for the record only; don't reuse it.
 
 ---
 
